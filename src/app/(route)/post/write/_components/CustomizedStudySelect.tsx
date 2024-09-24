@@ -2,7 +2,7 @@
 import { StudyDataListItem } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import { useEffect, useId, useState } from "react";
-import ReactSelect, { SingleValue } from "react-select";
+import ReactSelect, { ActionMeta, MultiValue, SingleValue } from "react-select";
 import { StylesConfig } from "react-select";
 import AsyncSelect from "react-select/async";
 
@@ -102,8 +102,10 @@ export default function CustomizedStudySelect(
     setSelected(defaultOption);
   }, [options]);
 
-  const onChange = (select: SingleValue<StudyCardSelectOption>) =>
-    setSelected(select);
+  const onChange = (
+    select: SingleValue<StudyCardSelectOption>,
+    _: ActionMeta<StudyCardSelectOption>
+  ) => setSelected(select);
 
   return (
     <ReactSelect
