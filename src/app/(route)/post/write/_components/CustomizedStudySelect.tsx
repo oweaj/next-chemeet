@@ -2,7 +2,7 @@
 import { StudyDataListItem } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import { useEffect, useId, useState } from "react";
-import ReactSelect, { MultiValue, SingleValue } from "react-select";
+import ReactSelect, { ActionMeta, MultiValue, SingleValue } from "react-select";
 import { StylesConfig } from "react-select";
 
 const DEFAULT_THUMBNAIL_URL = "/public/images/thumbnail/DefaultThumbnail.png";
@@ -108,7 +108,8 @@ export default function CustomizedStudySelect(
   const onChange = (
     select:
       | SingleValue<StudyCardSelectOption>
-      | MultiValue<StudyCardSelectOption>
+      | MultiValue<StudyCardSelectOption>,
+    _: ActionMeta<StudyCardSelectOption>
   ) => {
     if (Array.isArray(select)) {
       setSelected(null);
