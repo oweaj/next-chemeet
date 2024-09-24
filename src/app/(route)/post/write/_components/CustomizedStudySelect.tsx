@@ -2,9 +2,8 @@
 import { StudyDataListItem } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import { useEffect, useId, useState } from "react";
-import ReactSelect, { ActionMeta, MultiValue, SingleValue } from "react-select";
+import ReactSelect, { MultiValue, SingleValue } from "react-select";
 import { StylesConfig } from "react-select";
-import AsyncSelect from "react-select/async";
 
 const DEFAULT_THUMBNAIL_URL = "/public/images/thumbnail/DefaultThumbnail.png";
 
@@ -91,21 +90,32 @@ export default function CustomizedStudySelect(
 ) {
   const { options, name, className = "", defaultValue } = props;
   const thisId = useId();
-  const [selected, setSelected] =
-    useState<SingleValue<StudyCardSelectOption | undefined>>(undefined);
+  const [selected, setSelected] = useState<
+    | SingleValue<StudyCardSelectOption>
+    | MultiValue<StudyCardSelectOption>
+    | null
+  >(null);
 
   useEffect(() => {
     // console.log("options", options);
     const defaultOption = defaultValue
-      ? options.find((opt) => opt.value === defaultValue)
-      : undefined;
+      ? options.find((opt) => opt.value === defaultValue) || null
+      : null;
+
     setSelected(defaultOption);
-  }, [options]);
+  }, [options, defaultValue]);
 
   const onChange = (
-    select: SingleValue<StudyCardSelectOption>,
-    _: ActionMeta<StudyCardSelectOption>
-  ) => setSelected(select);
+    select:
+      | SingleValue<StudyCardSelectOption>
+      | MultiValue<StudyCardSelectOption>
+  ) => {
+    if (Array.isArray(select)) {
+      setSelected(null);
+    } else {
+      setSelected(select);
+    }
+  };
 
   return (
     <ReactSelect
