@@ -10,16 +10,16 @@ import { cfetch } from "@/utils/customFetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAlert } from "@/lib/actions/AlertAction";
 import { TAlert, TAlertItem } from "@/types/model/Alert";
-
-type DesktopMenuProps = {
-  profileImage: ReactNode;
-  userId: string;
-};
+import { useSession } from "next-auth/react";
 
 export default function DesktopMenu({
   profileImage,
-  userId,
-}: DesktopMenuProps) {
+}: {
+  profileImage: ReactNode;
+}) {
+  const { data: session } = useSession();
+  const userId = session?.user.id as string;
+
   const queryClient = useQueryClient();
 
   const { data } = useQuery({

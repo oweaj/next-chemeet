@@ -1,4 +1,5 @@
 "use client";
+
 import { CommentOrReply } from "@/types/model/Comment";
 import { useState } from "react";
 import CommentInputForm from "./CommentInput";
@@ -7,16 +8,18 @@ import Button from "@/common/Atoms/Form/Button";
 import { cfetch } from "@/utils/customFetch";
 import handleAlert from "@/common/Molecules/handleAlert";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type TCommentBodyLayout = {
   comment: CommentOrReply;
   commentId: string;
   canEdit: boolean;
   canReply?: boolean;
-  sessionId: string;
 };
 export function CommentBodyLayout(props: TCommentBodyLayout) {
-  const { comment, commentId, canEdit, canReply = true, sessionId } = props;
+  const { comment, commentId, canEdit, canReply = true } = props;
+  const { data: session } = useSession();
+  const sessionId = session?.user.id;
   const router = useRouter();
 
   const [content, setContent] = useState(comment.content);

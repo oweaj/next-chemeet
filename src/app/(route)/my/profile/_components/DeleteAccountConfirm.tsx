@@ -1,6 +1,7 @@
 "use client";
+
 import { useState } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Button from "@/common/Atoms/Form/Button";
 import Label from "@/common/Atoms/Form/Label";
 import Input from "@/common/Molecules/Form/Input";
@@ -8,7 +9,10 @@ import handleAlert from "@/common/Molecules/handleAlert";
 import { unregisterAction } from "@/lib/actions/authAction";
 import useModal from "@/hooks/useModal";
 
-export default function DeleteAccountConfirm({ email }: { email: string }) {
+export default function DeleteAccountConfirm() {
+  const { data: session } = useSession();
+  const email = session?.user.email as string;
+
   const [checked, setChecked] = useState<boolean>(false);
   const { Modal, open } = useModal({
     children: (

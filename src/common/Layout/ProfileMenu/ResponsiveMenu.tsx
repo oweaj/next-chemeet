@@ -30,7 +30,7 @@ export default async function ResponsiveMenu(props: TProfileImage) {
     <>
       <HydrationBoundary state={dehydratedState}>
         <MobileMenu {...props} />
-        <DesktopMenu {...props} userId={userId} />
+        <DesktopMenu {...props} />
       </HydrationBoundary>
     </>
   );

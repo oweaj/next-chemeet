@@ -19,7 +19,6 @@ export default async function ProfileForms() {
   const userId = session.user.id;
   const sessionProvider = session.account.provider;
   const userData = await getUserData(userId);
-  // const userProfile = await getProfile(userId);
   let profile: ProfileSchema = userData.data;
   let clientProfile = JSON.parse(JSON.stringify(profile));
 
@@ -32,7 +31,7 @@ export default async function ProfileForms() {
           initProfileUrl={profile.profile_img || ""}
         />
         <div className="w-full h-[1px] border-t border-t-line-normal"></div>
-        <FormEditProfile session={session} profile={clientProfile} />
+        <FormEditProfile profile={clientProfile} />
         {sessionProvider === "credentials" && (
           <>
             <div className="w-full h-[1px] border-t border-t-line-normal"></div>
@@ -44,7 +43,7 @@ export default async function ProfileForms() {
             </SectionTitle>
             <FormUpdatePhoneNumber defaultValue={profile.phone} />
             <div className="w-full h-[1px] border-t border-t-line-normal"></div>
-            <DeleteAccountConfirm email={session.user.email as string} />
+            <DeleteAccountConfirm />
           </>
         )}
       </div>

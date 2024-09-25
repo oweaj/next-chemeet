@@ -87,11 +87,7 @@ export default async function PostDetail({
             </p>
             <div className="flex gap-4 items-center ml-auto">
               <ShareIconButton width="32" height="32" />
-              <LikeIconButton
-                count={post.like}
-                postId={postId}
-                sessionId={session?.user.id}
-              />
+              <LikeIconButton count={post.like} postId={postId} />
             </div>
           </div>
         </div>

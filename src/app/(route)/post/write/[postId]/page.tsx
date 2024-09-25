@@ -1,6 +1,5 @@
 import { getSession } from "@/auth";
 import { getCommunity } from "@/lib/actions/communityAction";
-import { PostDataFull } from "@/types/model/PostItem";
 import { notFound, redirect } from "next/navigation";
 import PostForm from "../_components/PostForm";
 

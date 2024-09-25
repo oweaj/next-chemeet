@@ -1,4 +1,5 @@
 "use client";
+
 import likePostStore from "@/store/likePostStore";
 import handleAlert from "@/common/Molecules/handleAlert";
 import Button from "@/common/Atoms/Form/Button";
@@ -7,39 +8,49 @@ import { useEffect, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { ONE_SEC_IN_MS } from "@/constants/times_unit";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 
 type LikeIconButtonProps = {
   count: number;
   postId: string;
-  sessionId: string | undefined;
 };
 export default function LikeIconButton(props: LikeIconButtonProps) {
-  const { count, postId, sessionId } = props;
+  const { count, postId } = props;
+  const { data: session } = useSession();
+  const sessionId = session?.user.id;
   const likedCount = count < 0 ? 0 : count;
 
-  const { liked: likedPost, fetchUsersLiked: fetchLiked, fetchLikeToggle, addLiked, delLiked } = likePostStore();
-  const liked = likedPost.includes(postId)
-  const [init, setInit] = useState<boolean>(false)
+  const {
+    liked: likedPost,
+    fetchUsersLiked: fetchLiked,
+    fetchLikeToggle,
+    addLiked,
+    delLiked,
+  } = likePostStore();
+  const liked = likedPost.includes(postId);
+  const [init, setInit] = useState<boolean>(false);
   const checkLiked = async () => {
     await fetchLiked();
-    setInit(likedPost.includes(postId))
+    setInit(likedPost.includes(postId));
   };
+
   useEffect(() => {
     checkLiked();
   }, []);
+
   useEffect(() => {
-    console.log("liked??", liked)
-  }, [liked])
+    console.log("liked??", liked);
+  }, [liked]);
 
   async function toggleLike() {
     if (liked) {
-      delLiked(postId)
+      delLiked(postId);
     } else {
-      addLiked(postId)
+      addLiked(postId);
     }
 
     // 추후 throttle 처리 필요?
-    const result = await fetchLikeToggle(postId)
+    const result = await fetchLikeToggle(postId);
     if (result?.state) {
       handleAlert("success", result.message);
     } else {

@@ -54,7 +54,6 @@ export default async function CommentArea(props: TCommentArea) {
               key={c.commentId}
               comment={JSON.parse(JSON.stringify(c))}
               canEdit={String(sessionId) === String(c.writer?._id || null)}
-              sessionId={sessionId}
             />
           ))
         )}

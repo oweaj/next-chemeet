@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent } from "react";
+import { FormEvent } from "react";
 import Input from "@/common/Molecules/Form/Input";
 import ProfileInputArea from "../ProfileInputArea";
 import Button from "@/common/Atoms/Form/Button";
@@ -11,16 +11,15 @@ import {
 import { useRouter } from "next/navigation";
 import { updateProfile } from "@/lib/actions/profileAction";
 import { ProfileSchema } from "@/types/model/User";
-import { Session } from "next-auth";
 import handleAlert from "@/common/Molecules/handleAlert";
+import { useSession } from "next-auth/react";
 
 export default function FormEditProfile({
-  session,
   profile,
 }: {
-  session: Session | null;
   profile: ProfileSchema;
 }) {
+  const { data: session } = useSession();
   const router = useRouter();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -86,17 +85,6 @@ export default function FormEditProfile({
             placeholder="이메일 주소를 입력하세요"
             readOnly
           />
-          {/* <div className="flex gap-4 items-center">
-            <Button
-              variation="outline"
-              colors={{ bg: "bg-main-600", text: "text-main-600" }}
-            >
-              이메일 인증
-            </Button>
-            <span className="text-label-400 text-main-600">
-              *변경 후 재인증이 필요합니다.
-            </span>
-          </div> */}
         </ProfileInputArea>
       )}
       <ProfileInputArea label="관심 카테고리">

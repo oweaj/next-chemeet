@@ -40,7 +40,7 @@ export default async function MyStudyLiked() {
   // const session = await getSession();
   // const result = await getLikeStudies(session?.user.id as string);
   const likedStudies: StudyDataFull[] = [];
-  // const studyCards = result.state ? result.data : [];
+
   return (
     <div className="gridContent">
       <SectionTitle size="md" className="mb-6">
