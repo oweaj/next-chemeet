@@ -13,14 +13,9 @@ export default function MobileMenu({ profileImage }: TProfileImage) {
   const { Popup, open, close } = usePopover({
     key: "mobile-menu",
     children: (
-      <div className="flex gap-8 items-center">
+      <div className="flex items-center justify-center">
         <div>
-          <div className="flex justify-between items-center">
-            {profileImage}
-            <div className="pl-4">
-              <Image src={AlarmIcon} alt="alarm" />
-            </div>
-          </div>
+          {profileImage}
           <Link
             href={"/study/create"}
             className="flex items-center justify-center gap-2 w-36 py-2 leading-8 text-main-600 border border-solid border-main-600 rounded-[1.3rem]"
