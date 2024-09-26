@@ -5,6 +5,7 @@ export type CategoryGroup = {
 };
 
 export type TSelectOption = {
+  _id: string;
   value: string;
   label: string;
 };
