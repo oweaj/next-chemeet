@@ -1,4 +1,5 @@
 "use client";
+
 import { ChangeEvent, useEffect, useState } from "react";
 import ProfileInputArea from "../ProfileInputArea";
 import useModal from "@/hooks/useModal";
@@ -13,19 +14,25 @@ import {
   supabaseUploadImage,
 } from "@/lib/actions/profileAction";
 import { resizeFile } from "@/utils/resizeFile";
-
-export type ProfileImageFormProps = {
-  id: string;
-  initProfileUrl: string;
-};
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserData } from "@/lib/actions/userAction";
 
 export default function FormEditProfileImageWithPreview({
-  id,
-  initProfileUrl,
-}: ProfileImageFormProps) {
-  const [imageUrl, setImageUrl] = useState<string>(initProfileUrl);
+  userId,
+}: {
+  userId: string;
+}) {
+  const queryClient = useQueryClient();
+  const { data } = useQuery({
+    queryKey: ["profile", userId],
+    queryFn: () => getUserData(userId),
+  });
+
+  const profileData = data?.data;
+  const imgCheck = profileData ? profileData.profile_img : "";
+  const [imageUrl, setImageUrl] = useState<string>(imgCheck || "");
   const modalClose = () => {
-    setImageUrl(initProfileUrl);
+    setImageUrl(imgCheck);
   };
 
   const { Modal, open, close } = useModal({
@@ -35,13 +42,13 @@ export default function FormEditProfileImageWithPreview({
       <ProfileImagePreviewModal
         imageUrl={imageUrl}
         getImage={getImage}
-        onSave={onSave}
+        onSave={() => updateMutation.mutateAsync()}
       />
     ),
   });
 
   useEffect(() => {
-    if (initProfileUrl !== imageUrl) {
+    if (imgCheck !== imageUrl) {
       if (!imageUrl) {
         close();
         return;
@@ -54,6 +61,55 @@ export default function FormEditProfileImageWithPreview({
     };
   }, [imageUrl]);
 
+  const uploadMutaion = useMutation({
+    mutationFn: async (file: File) => {
+      const resizeImage = await resizeFile(file);
+
+      const formData = new FormData();
+      formData.append("file", resizeImage);
+
+      const upload = await supabaseUploadImage(formData);
+      return upload;
+    },
+    onSuccess: (upload) => {
+      if (upload.state && upload.result) {
+        setImageUrl(upload.result || "");
+      } else {
+        handleAlert("error", upload.message || "업로드 실패");
+      }
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async () => {
+      return await updateUserData(userId, { profile_img: imageUrl });
+    },
+    onSuccess: (result) => {
+      if (result.state) {
+        close();
+        handleAlert("success", result.message);
+        queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+      } else {
+        handleAlert("error", result.message);
+      }
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async () => {
+      return await updateUserData(userId, { profile_img: "" });
+    },
+    onSuccess: (result) => {
+      if (result.state) {
+        setImageUrl("");
+        handleAlert("success", result.message);
+        queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+      } else {
+        handleAlert("error", result.message);
+      }
+    },
+  });
+
   async function getImage(e: ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
 
@@ -63,33 +119,7 @@ export default function FormEditProfileImageWithPreview({
       const previewUrl = URL.createObjectURL(file);
       setImageUrl(previewUrl);
 
-      const resizeImage = await resizeFile(file);
-
-      const formData = new FormData();
-      formData.append("file", resizeImage);
-
-      const upload = await supabaseUploadImage(formData);
-
-      if (upload.state && upload.result) {
-        setImageUrl(upload.result);
-      } else {
-        handleAlert("error", upload.message);
-      }
-    }
-  }
-
-  async function onSave() {
-    try {
-      const result = await updateUserData(id, { profile_img: imageUrl });
-
-      if (result.state) {
-        close();
-        handleAlert("success", result.message);
-      } else {
-        handleAlert("error", result.message);
-      }
-    } catch (error) {
-      console.error(error);
+      uploadMutaion.mutate(file);
     }
   }
 
@@ -99,18 +129,7 @@ export default function FormEditProfileImageWithPreview({
       return;
     }
 
-    try {
-      const result = await updateUserData(id, { profile_img: "" });
-      setImageUrl("");
-
-      if (result.state) {
-        handleAlert("success", result.message);
-      } else {
-        handleAlert("error", result.message);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    deleteMutation.mutate();
   }
 
   return (
@@ -119,7 +138,7 @@ export default function FormEditProfileImageWithPreview({
         <div className="flex items-center gap-4">
           <ProfileImg
             size="xlarge"
-            src={imageUrl || DummyProfileImg}
+            src={imgCheck || DummyProfileImg}
             alt="프로필 이미지 미리보기"
           />
           <ImageInputWithButton

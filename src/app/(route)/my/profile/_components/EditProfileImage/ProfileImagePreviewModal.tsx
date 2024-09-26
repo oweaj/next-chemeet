@@ -6,7 +6,7 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 type PropsToPreviewModal = {
   imageUrl: string;
   getImage: ChangeEventHandler;
-  onSave: () => Promise<void>;
+  onSave: () => Promise<{ state: boolean; message: string }>;
 };
 export default function ProfileImagePreviewModal(props: PropsToPreviewModal) {
   const { imageUrl, getImage, onSave } = props;
@@ -15,7 +15,7 @@ export default function ProfileImagePreviewModal(props: PropsToPreviewModal) {
   useEffect(() => {
     const handleTime = setTimeout(() => {
       setDisadled(false);
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(handleTime);
   }, []);
