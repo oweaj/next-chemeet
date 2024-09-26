@@ -27,7 +27,7 @@ const SidePopup = forwardRef(
           <Button.Icon onClick={onClose}>
             <CloseIcon stroke="#464748" />
           </Button.Icon>
-          <div className="h-full overflow-auto p-4">{children}</div>
+          <div className="h-full overflow-auto py-8">{children}</div>
         </div>
       </dialog>
     );
