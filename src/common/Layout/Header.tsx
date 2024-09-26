@@ -32,7 +32,7 @@ export default async function Header() {
             </nav>
           </div>
           {session ? (
-            <SessionedHeader sessionId={session.user.id} />
+            <SessionedHeader userId={session.user.id} />
           ) : (
             <Link
               href="/login"
