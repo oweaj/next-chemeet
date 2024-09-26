@@ -1,6 +1,6 @@
 "use server";
 
-import { TAlertItem } from "@/types/model/Alert";
+import { TAlert, TAlertItem } from "@/types/model/Alert";
 import connectDB from "../db";
 import { Alert } from "../schema";
 
@@ -12,13 +12,26 @@ export async function getAlert(userId: string) {
   await connectDB();
 
   try {
-    const result = await Alert.find({ userId }).select("alertList allRead");
+    const result: TAlert[] = await Alert.find({ userId })
+      .select("alertList allRead")
+      .lean();
 
     if (!result) {
       return { state: false };
     }
 
-    const data = JSON.parse(JSON.stringify(result));
+    const data = result.map((item) => ({
+      ...item,
+      _id: item._id.toString(),
+      alertList: item.alertList.map((alertItem) => ({
+        ...alertItem,
+        _id: alertItem._id?.toString(),
+        comments: alertItem.comments.map((comment) => ({
+          ...comment,
+          _id: comment._id.toString(),
+        })),
+      })),
+    }));
 
     return { state: true, data };
   } catch (error) {
