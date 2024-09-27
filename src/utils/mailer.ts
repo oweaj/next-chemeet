@@ -23,7 +23,11 @@ export const sendEmail = async (email: string, joinEmail?: string) => {
     <p>아래 링크를 클릭하여 ${check} 찾기를 완료하세요.</p>
     <a href="${process.env.BASE_URL}/find/${
       joinEmail ? "password" : "email"
-    }" style="display:inline-block; padding:10px; margin:10px 0; background-color:#007bff; color:white; text-decoration:none; border-radius:5px;">${check} 찾기 링크로 이동하기</a>
+    }" style="display:inline-block; padding:10px; margin:10px 0; background-color:#007bff; color:white; text-decoration:none; border-radius:5px;">${
+      check === "비밀번호"
+        ? "비밀번호 변경 링크 이동하기"
+        : "이메일 찾기 링크 이동하기"
+    } </a>
     <p>※ 입력하신 정보는 10분간 유효하여 유효시간 내에 완료하세요.</p>
     </div>
     `,
