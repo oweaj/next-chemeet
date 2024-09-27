@@ -9,17 +9,14 @@ import TextEditor from "@/common/Atoms/Form/TextEditor";
 import LinkButton from "@/common/Atoms/LinkButton";
 import { LabelText } from "@/common/Atoms/Form/Label";
 import { AdditionIcon } from "@/common/Atoms/Image/Icon";
-
 import ButtonCheck from "@/common/Molecules/Form/ButtonCheck";
 import Input from "@/common/Molecules/Form/Input";
 import { CATEGORIES } from "@/constants/categories/job_category";
 import { GOALS } from "@/constants/categories/study_goal";
 import { ONOFF } from "@/constants/categories/study_type";
 import ThumbnailInput from "./ThumbnailInput";
-
 import handleAlert from "@/common/Molecules/handleAlert";
 import { useRouter } from "next/navigation";
-import { createStudy } from "@/lib/actions/studyAction";
 import { StudySchema } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import SelectCategory from "./SelectCategory";
