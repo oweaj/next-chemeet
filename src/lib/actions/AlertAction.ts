@@ -23,14 +23,16 @@ export async function getAlert(userId: string) {
     const data = result.map((item) => ({
       ...item,
       _id: item._id.toString(),
-      alertList: item.alertList.map((alertItem) => ({
-        ...alertItem,
-        _id: alertItem._id?.toString(),
-        comments: alertItem.comments.map((comment) => ({
-          ...comment,
-          _id: comment._id.toString(),
-        })),
-      })),
+      alertList: item.alertList.map((alertItem) => {
+        const { _id, ...rest } = alertItem;
+        return {
+          ...rest,
+          comments: alertItem.comments.map((comment) => ({
+            ...comment,
+            _id: comment._id.toString(),
+          })),
+        };
+      }),
     }));
 
     return { state: true, data };

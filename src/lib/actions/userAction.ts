@@ -21,10 +21,12 @@ export async function getUserData(userId: string) {
     const data = {
       ...result,
       _id: result._id.toString(),
-      my_category: result.my_category.map((category) => ({
-        ...category,
-        _id: category._id.toString(),
-      })),
+      my_category: result.my_category.map((category) => {
+        const { _id, ...rest } = category;
+        return {
+          ...rest,
+        };
+      }),
     };
 
     return { state: true, data };
