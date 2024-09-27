@@ -6,7 +6,7 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 type PropsToPreviewModal = {
   imageUrl: string;
   getImage: ChangeEventHandler;
-  onSave: () => Promise<{ state: boolean; message: string }>;
+  onSave: () => void;
 };
 export default function ProfileImagePreviewModal(props: PropsToPreviewModal) {
   const { imageUrl, getImage, onSave } = props;

@@ -42,7 +42,7 @@ export default function FormEditProfileImageWithPreview({
       <ProfileImagePreviewModal
         imageUrl={imageUrl}
         getImage={getImage}
-        onSave={() => updateMutation.mutateAsync()}
+        onSave={() => updateMutation.mutate()}
       />
     ),
   });
