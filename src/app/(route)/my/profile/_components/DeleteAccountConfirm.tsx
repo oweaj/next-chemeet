@@ -4,21 +4,21 @@ import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Button from "@/common/Atoms/Form/Button";
 import Label from "@/common/Atoms/Form/Label";
-import Input from "@/common/Molecules/Form/Input";
 import handleAlert from "@/common/Molecules/handleAlert";
 import { unregisterAction } from "@/lib/actions/authAction";
 import useModal from "@/hooks/useModal";
+import Input from "@/common/Molecules/Form/Input";
 
 export default function DeleteAccountConfirm() {
   const { data: session } = useSession();
   const email = session?.user.email as string;
 
   const [checked, setChecked] = useState<boolean>(false);
-  const { Modal, open } = useModal({
+  const { Modal, open, close } = useModal({
     children: (
-      <div className="flex flex-col gap-6 max-w-96">
-        <p className="text-H3 text-label-normal">정말로 데이터를 삭제할까요?</p>
-        <p className="text-body-400 text-label-neutral break-words">
+      <div className="max-lg:w-full max-lg:h-full flex flex-col justify-center items-center gap-6 max-w-96">
+        <p className="text-H3 text-label-normal">회원 탈퇴를 진행할까요?</p>
+        <p className="text-body-400 text-center text-label-neutral break-words">
           계정을 삭제하면 작성한 게시물들의 작성자가 익명 처리되며 자동으로
           삭제되지 않습니다.
         </p>
@@ -37,7 +37,10 @@ export default function DeleteAccountConfirm() {
       const result = await unregisterAction(email);
 
       if (result.state) {
-        signOut({ callbackUrl: "/" });
+        setTimeout(() => {
+          signOut({ callbackUrl: "/" });
+        }, 2000);
+        close();
         handleAlert("success", result.message);
       } else {
         handleAlert("error", result.message);
@@ -51,9 +54,11 @@ export default function DeleteAccountConfirm() {
     <div>
       <div className="flex flex-row gap-2 items-start mb-4">
         <Input.Checkbox
+          type="checkbox"
           id="agreeDeleteAccount"
-          className="my-[2px]"
-          onChange={() => setChecked((prev) => !prev)}
+          className="my-[2px] pointer-events-auto"
+          checked={checked}
+          onChange={() => setChecked(!checked)}
         />
         <Label
           htmlFor="agreeDeleteAccount"

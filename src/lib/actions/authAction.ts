@@ -245,7 +245,12 @@ export async function changePassword(formData: FormData) {
   try {
     const result = await updatePassword(userEmail, newFormData);
 
-    return result;
+    return {
+      state: true,
+      message:
+        "새로운 비밀번호로 변경 완료되어 재 로그인을 위해 2초 후 로그인 페이지로 이동됩니다.",
+      result,
+    };
   } catch (error) {
     console.log("update password error" + error);
     return { state: false, message: "비밀번호 변경이 실패했습니다." };
@@ -263,16 +268,19 @@ export async function unregisterAction(email: string) {
   await connectDB();
 
   const userCheck = await User.findOne({ email });
-  console.log({ userCheck });
+
   if (!userCheck) {
     return { state: false, message: "잘못된 email입니다." };
   }
 
   try {
     await User.findOneAndDelete({ email });
-    return { state: true, message: "데이터가 삭제되었습니다." };
+    return {
+      state: true,
+      message: "회원 탈퇴가 되었습니다. 2초 후 로그인 페이지로 이동됩니다.",
+    };
   } catch (error) {
     console.log("auth error" + error);
-    return { state: false, message: "데이터 삭제에 실패했습니다." };
+    return { state: false, message: "회원 탈퇴에 실패했습니다." };
   }
 }

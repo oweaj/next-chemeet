@@ -37,13 +37,13 @@ export default async function ProfileForms() {
           {sessionProvider === "credentials" && (
             <>
               <div className="w-full h-[1px] border-t border-t-line-normal"></div>
-              <SectionTitle size="md">비밀번호 수정</SectionTitle>
+              <SectionTitle size="md">비밀번호 변경</SectionTitle>
               <FormUpdatePassword />
               <div className="w-full h-[1px] border-t border-t-line-normal"></div>
               <SectionTitle size="md" className="mb-2">
                 연락처 수정
               </SectionTitle>
-              <FormUpdatePhoneNumber />
+              <FormUpdatePhoneNumber userId={userId} />
               <div className="w-full h-[1px] border-t border-t-line-normal"></div>
               <DeleteAccountConfirm />
             </>

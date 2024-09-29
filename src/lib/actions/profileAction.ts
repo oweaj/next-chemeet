@@ -16,8 +16,6 @@ export async function updateProfile(id: string, formData: FormData) {
   const introduce = formData.get("introduce") as string;
   const my_category = JSON.parse(formData.get("myCategory") as string);
 
-  console.log("update", { position_tag, introduce, my_category });
-
   try {
     const update = await User.findOneAndUpdate(
       { _id: id },
@@ -42,16 +40,7 @@ export async function updateProfile(id: string, formData: FormData) {
   }
 }
 
-/**
- * 사용: `<SetCategoryFavor />`
- *
- * 관심 카테고리 저장
- * SetCategoryFavor 모달에서 사용
- */
-export async function saveMyCategory(formData: FormData) {
-  const session = await getSession();
-  const userId = session?.user.id;
-
+export async function saveMyCategory(userId: string, formData: FormData) {
   if (!userId) {
     return { state: false, message: "유효한 id가 필요합니다." };
   }
@@ -61,7 +50,7 @@ export async function saveMyCategory(formData: FormData) {
   const my_category = JSON.parse(formData.get("my_category") as string);
 
   try {
-    await User.findOneAndUpdate({ userId }, { my_category }, { new: true });
+    await User.findOneAndUpdate({ _id: userId }, { my_category });
 
     return {
       state: true,
@@ -84,8 +73,6 @@ type NonStaticUserData = Pick<UserSchema, "profile_img" | "phone" | "role">;
 type UpdateDocument = Partial<NonStaticUserData>;
 export async function updateUserData(id: string, updateDoc: UpdateDocument) {
   await connectDB();
-
-  const check = await User.exists({ _id: id });
 
   try {
     const update = await User.findOneAndUpdate({ _id: id }, updateDoc, {

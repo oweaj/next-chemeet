@@ -1,5 +1,6 @@
 "use client";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+
+import { ChangeEvent, FormEvent, useState } from "react";
 import Image from "next/image";
 import { PasswordHide, PasswordShow } from "@public/icons";
 import ProfileInputArea from "../ProfileInputArea";
@@ -7,6 +8,7 @@ import Button from "@/common/Atoms/Form/Button";
 import Input from "@/common/Molecules/Form/Input";
 import handleAlert from "@/common/Molecules/handleAlert";
 import { changePassword } from "@/lib/actions/authAction";
+import { signOut } from "next-auth/react";
 
 type TNewPw = {
   currentPassword: string;
@@ -23,10 +25,12 @@ const newPwInit = {
 export default function FormUpdatePassword() {
   const [pwShow, setPwShow] = useState(false);
   const [newPw, setNewPw] = useState<TNewPw>(newPwInit);
+
   function onChangeNewPw(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
     setNewPw((prev) => ({ ...prev, [name]: value }));
   }
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (newPw.newPassword.length < 12 && newPw.newPasswordCheck.length < 12) {
@@ -48,6 +52,9 @@ export default function FormUpdatePassword() {
       const result = await changePassword(formData);
 
       if (result?.state) {
+        setTimeout(() => {
+          signOut({ callbackUrl: "/login" });
+        }, 2000);
         handleAlert("success", result.message);
       } else {
         handleAlert("error", result.message);
