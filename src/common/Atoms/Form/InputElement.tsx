@@ -66,8 +66,8 @@ export function Checkbox({
   onChange,
   ...restProps
 }: Omit<TInputElementProps, "hidden"> & {
-  checked: boolean;
-  onChange: () => void;
+  checked?: boolean;
+  onChange?: () => void;
 }) {
   return (
     <div className={className}>
