@@ -27,7 +27,7 @@ const ModalPortal = forwardRef(
           <Button.Icon className="absolute right-8 top-8" onClick={onClose}>
             <CloseIcon />
           </Button.Icon>
-          <div className="h-full max-h-[calc(100vh-(94px+56px)*2)] overflow-auto">
+          <div className="flex items-center justify-center h-full max-h-[calc(100vh-(94px+56px)*2)] overflow-auto">
             {children}
           </div>
         </div>
