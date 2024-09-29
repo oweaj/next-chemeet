@@ -110,11 +110,13 @@ export default function Notification(props: {
           )}
           <div
             className={`ml-3 flex gap-1 ${
-              message?.text ? "flex flex-col" : "w-full justify-center flex-row"
+              message?.text ? "flex-col" : "w-full justify-center flex-row"
             }`}
           >
             {message?.title && (
-              <p className="text-label-600 text-white">{message.title}</p>
+              <p className="text-label-600 text-white text-center">
+                {message.title}
+              </p>
             )}
             {message?.text && (
               <p className="text-label-400 text-label-alt">{message.text}</p>
