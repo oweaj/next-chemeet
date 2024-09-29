@@ -1,4 +1,5 @@
 "use client";
+
 import { FormEvent, MouseEventHandler, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
@@ -12,7 +13,7 @@ import { RefreshIcon } from "@/common/Atoms/Image/Icon";
 import { saveMyCategory } from "@/lib/actions/profileAction";
 import handleAlert from "@/common/Molecules/handleAlert";
 
-export default function SetCategoryFavor() {
+export default function SetCategoryFavor({ userId }: { userId: string }) {
   const router = useRouter();
   const categoryGroup = CATEGORIES.map(({ value, label }) => ({
     value,
@@ -44,7 +45,7 @@ export default function SetCategoryFavor() {
     formData.append("my_category", JSON.stringify(my_category));
 
     try {
-      const result = await saveMyCategory(formData);
+      const result = await saveMyCategory(userId, formData);
       if (result.state) {
         router.replace("/");
         handleAlert("success", result.message);

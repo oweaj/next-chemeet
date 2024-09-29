@@ -11,7 +11,7 @@ export default async function SetMyCategory() {
 
   return (
     <div className="rounded-[1.25rem] p-[3.5rem] h-screen w-screen flex items-center justify-center overflow-hidden">
-      <SetCategoryFavor />
+      <SetCategoryFavor userId={session.user.id} />
     </div>
   );
 }
