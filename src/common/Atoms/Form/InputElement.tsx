@@ -62,21 +62,27 @@ export function Textarea(props: React.ComponentProps<"textarea">) {
 
 export function Checkbox({
   className,
+  checked,
+  onChange,
   ...restProps
-}: Omit<TInputElementProps, "hidden">) {
+}: Omit<TInputElementProps, "hidden"> & {
+  checked: boolean;
+  onChange: () => void;
+}) {
   return (
     <div className={className}>
       <input
         type="checkbox"
-        hidden
+        checked={checked}
+        onChange={onChange}
         {...restProps}
-        className="[&+.icon>.unchecked]:block [&:checked+.icon>.unchecked]:hidden [&+.icon>.checked]:hidden [&:checked+.icon>.checked]:block"
+        className="[&+.icon>.unchecked]:block [&:checked+.icon>.unchecked]:hidden [&+.icon>.checked]:hidden [&:checked+.icon>.checked]:block hidden"
       />
-      <div className="icon">
-        <span className="checked">
+      <div className="icon cursor-pointer" onClick={onChange}>
+        <span className={`checked ${checked ? "block" : "hidden"}`}>
           <CheckboxCheckedIcon />
         </span>
-        <span className="unchecked">
+        <span className={`unchecked ${checked ? "hidden" : "block"}`}>
           <CheckobUncheckedIcon />
         </span>
       </div>
