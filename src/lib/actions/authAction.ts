@@ -5,10 +5,7 @@ import connectDB from "../db";
 import { User } from "../schema";
 import { getSession, signIn } from "@/auth";
 import { sendEmail } from "@/utils/mailer";
-
-const emailValid = /^[\w.-]+@[\w-]+\.[a-zA-Z]{2,}$/;
-const passwordValid = /^(?=.*[a-zA-Z])(?=.*[!@#*])(?=.*[0-9]).{12,}$/;
-const nameValid = /^[가-힣]{2,4}$/;
+import { validateInput } from "@/utils/validateInput";
 
 export async function register(formData: FormData) {
   const email = formData.get("email") as string;
@@ -18,13 +15,13 @@ export async function register(formData: FormData) {
   const phone = formData.get("phone") as string;
   const hashedPassword = await hash(String(password), 10);
 
-  if (!emailValid.test(email)) {
+  if (!validateInput(email, "email")) {
     return { state: false, message: "이메일 유형에 맞게 입력해주세요." };
   }
-  if (!passwordValid.test(password)) {
+  if (!validateInput(password, "password")) {
     return { state: false, message: "비밀번호 유형에 맞게 입력해주세요." };
   }
-  if (!nameValid.test(name)) {
+  if (!validateInput(name, "name")) {
     return { state: false, message: "이름 유형에 맞게 입력해주세요." };
   }
   if (password !== pwCheck) {
@@ -73,7 +70,20 @@ export async function login(formData: FormData) {
     return { state: false, message: "입력한 정보를 다시 확인해주세요." };
   }
 
+  await connectDB();
+
+  const user = await User.findOne({ email });
+
   try {
+    const passwordCheck = await compare(String(password), user.password);
+
+    if (!passwordCheck) {
+      return {
+        state: false,
+        message: "이메일 또는 비밀번호를 다시 확인해주세요.",
+      };
+    }
+
     await signIn("credentials", {
       redirect: false,
       email,
@@ -84,9 +94,21 @@ export async function login(formData: FormData) {
   } catch (error) {
     return {
       state: false,
-      message: "이메일 또는 비밀번호를 다시 확인해주세요.",
+      message: "로그인 중 문제가 발생했습니다",
     };
   }
+}
+
+export async function KakaoLogin() {
+  await signIn("kakao");
+}
+
+export async function GoogleLogin() {
+  await signIn("google");
+}
+
+export async function GithubLogin() {
+  await signIn("github");
 }
 
 export async function findEmail(formData: FormData) {
