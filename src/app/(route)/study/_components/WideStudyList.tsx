@@ -1,22 +1,21 @@
+"use client";
+
 import WideStudyItem from "./WideStudyItem";
-import NoneStudyComponent from "./NoneStudyComponent";
-import { StudyDataFull, StudySchema } from "@/types/model/StudyCard";
+import { StudyDataFull } from "@/types/model/StudyCard";
+import { useQuery } from "@tanstack/react-query";
+import { getStudy } from "@/lib/actions/studyAction";
 
-export default function WideStudyList({
-  studyCards,
-  count,
-}: {
-  studyCards: StudyDataFull[];
-  count: number;
-}) {
-  if (!studyCards) {
-    return <NoneStudyComponent />;
-  }
+export default function WideStudyList() {
+  const { data } = useQuery({
+    queryKey: ["study"],
+    queryFn: () => getStudy(),
+  });
 
-  const STUDYCARD = studyCards.slice(0, count);
+  const studyList = data?.data;
+
   return (
     <div className="grid grid-cols-2 gap-6">
-      {STUDYCARD.map((card) => (
+      {studyList.map((card: StudyDataFull) => (
         <WideStudyItem key={card.studyId} card={card} />
       ))}
     </div>

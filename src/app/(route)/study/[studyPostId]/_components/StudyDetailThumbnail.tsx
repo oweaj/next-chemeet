@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Keyword from "@/common/Atoms/Text/Keyword";
 import ThumbnailInfoList from "./ThumbnailInfoLabel";
@@ -7,8 +9,12 @@ import dayjs from "dayjs";
 import SaveHeartButton from "@/common/Molecules/Form/SaveHeartButton";
 import { DefaultThumbnailImg } from "@public/images";
 import ApplyButton from "./ApplyButton";
+import { useQuery } from "@tanstack/react-query";
+import { getStudy } from "@/lib/actions/studyAction";
+import { StudySchema } from "@/types/model/StudyCard";
 
 export type TThumbnailInfo = {
+  studyId: string;
   expense: number;
   jobCategory: { label: string; value: string };
   location: { label: string; value: string };
@@ -18,40 +24,34 @@ export type TThumbnailInfo = {
   studyPeriod: [string, string];
   targetCategory: { label: string; value: string };
   thumbnailUrl: string | null;
+  writer: string;
   title: string;
 };
+
 export default function StudyDetailThumbnail({
-  studyInfo,
-  heart,
+  studyPostId,
 }: {
-  studyInfo: TThumbnailInfo;
-  heart: number;
+  studyPostId: string;
 }) {
-  const {
-    thumbnailUrl,
-    title,
-    jobCategory,
-    targetCategory,
-    expense,
-    recruitmentPeople,
-    recruitmentPeriod,
-    studyPeriod,
-    place,
-    location,
-  } = studyInfo;
+  const { data } = useQuery({
+    queryKey: ["study", studyPostId],
+    queryFn: () => getStudy(studyPostId),
+  });
+
+  const studyData: StudySchema = data?.data;
 
   const nowDay = dayjs(new Date()).format("YYYY.MM.DD");
-  const recruitmentDay = dayjs(recruitmentPeriod[1]);
+  const recruitmentDay = dayjs(studyData.studyInfo.recruitmentPeriod[1]);
   const resultDay = dayjs(nowDay).diff(recruitmentDay, "days");
 
   return (
-    <div className="flex gap-7">
-      <div className="relative">
+    <div className="w-full flex justify-between max-lg:flex-col max-lg:gap-8">
+      <div className="relative flex-1">
         <Image
-          width={582}
-          height={438}
-          className="w-[36.375rem] h-[27.375rem] rounded-3xl"
-          src={thumbnailUrl || DefaultThumbnailImg}
+          width={500}
+          height={400}
+          className="w-[31rem] h-[25rem] rounded-3xl object-cover"
+          src={studyData.studyInfo.thumbnailUrl || DefaultThumbnailImg}
           alt="썸네일 이미지"
         />
         <div className="flex gap-1 absolute left-0 top-6">
@@ -67,24 +67,24 @@ export default function StudyDetailThumbnail({
           </Keyword>
         </div>
       </div>
-      <div className="flex-1">
-        <span className="block mb-3 text-[#888] text-xl">
-          {jobCategory.label}
+      <div className="flex flex-col flex-1 gap-5">
+        <span className="block text-[#888] text-xl">
+          {studyData.studyInfo.jobCategory.label}
         </span>
-        <p className="text-H2">{title}</p>
-        <div className="flex gap-8 py-10">
+        <p className="text-H2">{studyData.studyInfo.title}</p>
+        <div className="flex gap-8">
           <ThumbnailInfoList />
           <ul className="flex flex-col gap-4 text-xl">
-            <li>{targetCategory.label}</li>
-            <li>{recruitmentPeople}명</li>
-            <li>{expense.toLocaleString("ko-KR")}원</li>
+            <li>{studyData.studyInfo.targetCategory.label}</li>
+            <li>{studyData.studyInfo.recruitmentPeople}명</li>
+            <li>{studyData.studyInfo.expense.toLocaleString("ko-KR")}원</li>
             <li>
-              {studyPeriod[0]} ~ {studyPeriod[1]}
+              {studyData.studyInfo.studyPeriod[0]} ~{" "}
+              {studyData.studyInfo.studyPeriod[1]}
             </li>
-            <li>{location.label}</li>
+            <li>{studyData.studyInfo.location.label}</li>
           </ul>
         </div>
-
         <div className="flex items-center gap-5">
           <Link
             href={"/studyroom/:studyroomId"}
@@ -95,7 +95,7 @@ export default function StudyDetailThumbnail({
           <ApplyButton resultDay={resultDay} />
           <div className="flex items-center gap-3">
             <ShareIconButton />
-            <SaveHeartButton heart={heart} />
+            <SaveHeartButton heart={studyData.heartCount} />
           </div>
         </div>
       </div>

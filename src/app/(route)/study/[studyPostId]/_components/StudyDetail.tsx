@@ -1,21 +1,20 @@
-import { StudyDataFull } from "@/types/model/StudyCard";
 import StudyDetailThumbnail from "./StudyDetailThumbnail";
 import StudyDetailContent from "./StudyDetailContent";
 import CommentArea from "@/common/Templates/CommentArea";
 import { getSession } from "@/auth";
 
-export default async function StudyDetail({ study }: { study: StudyDataFull }) {
+export default async function StudyDetail({
+  studyPostId,
+}: {
+  studyPostId: string;
+}) {
   const session = await getSession();
-  const { studyId, studyInfo, contents, heartCount, writer } = study;
 
   return (
     <div>
-      <StudyDetailThumbnail studyInfo={studyInfo} heart={heartCount} />
-      <StudyDetailContent contents={contents} writer={writer} />
-      <CommentArea
-        postId={String(studyId)}
-        sessionId={session?.user.id || ""}
-      />
+      <StudyDetailThumbnail studyPostId={studyPostId} />
+      <StudyDetailContent studyPostId={studyPostId} />
+      <CommentArea postId={studyPostId} sessionId={session?.user.id || ""} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
-import { CommentBodyLayout } from "@/common/Organisms/Comment/CommentBodyLayout";
-import StudyCardList from "@/common/Templates/CardList";
+import StudyCardList from "../(route)/study/_components/CardList";
 import { StudyDataFull } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 
@@ -13,11 +12,7 @@ export default async function RecommendProStudies() {
     })
     .catch((err) => err);
 
-  // if (!response?.data) {
-  //   throw new Error("추천 스터디 정보 가져오기 실패");
-  // }
-
   const recommend: StudyDataFull[] = response?.data ?? [];
 
-  return <StudyCardList studyCards={recommend} count={8} />;
+  return <StudyCardList studyCards={recommend} />;
 }

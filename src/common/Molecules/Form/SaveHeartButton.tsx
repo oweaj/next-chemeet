@@ -18,9 +18,7 @@ export default function SaveHeartButton({ heart }: { heart: number }) {
           alt="좋아요 버튼"
         />
       </button>
-      <span className="text-label-neutral font-semibold">
-        {saveHeart ? heart++ : heart - 1}
-      </span>
+      <span className="text-label-neutral font-semibold">{heart}</span>
     </>
   );
 }

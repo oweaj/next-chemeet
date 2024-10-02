@@ -1,6 +1,7 @@
 import { getStudy } from "@/lib/actions/studyAction";
 import StudyForm from "../_components/StudyForm";
 import SectionTitle from "@/common/Atoms/Text/SectionTitle";
+import { StudySchema } from "@/types/model/StudyCard";
 
 export default async function Page({
   params: { studyPostId },
@@ -8,7 +9,10 @@ export default async function Page({
   params: { studyPostId: string };
 }) {
   const result = await getStudy(studyPostId);
-  const defaultValue = JSON.parse(JSON.stringify(result.data, null));
+
+  const defaultValue: StudySchema = result.data;
+
+  console.log(result);
 
   return (
     <>

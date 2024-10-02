@@ -2,7 +2,6 @@
 
 import React from "react";
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useState } from "react";
-
 import Button from "@/common/Atoms/Form/Button";
 import GridField from "@/common/Atoms/Form/Field";
 import TextEditor from "@/common/Atoms/Form/TextEditor";
@@ -21,6 +20,8 @@ import { StudySchema } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import SelectCategory from "./SelectCategory";
 import CalenarDates from "./CalenarDates";
+import { DefaultThumbnailImg } from "@public/images";
+import { StaticImageData } from "next/image";
 
 type CategoryOption = {
   readonly label: string;
@@ -52,7 +53,9 @@ export default function StudyForm({
       );
   };
 
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string>(
+    defaultValue?.studyInfo.thumbnailUrl || ""
+  );
 
   // 스터디 카테고리
   const [jobCategory, setJobCategory] = useState<CategoryOption | null>({
@@ -308,7 +311,6 @@ export default function StudyForm({
             categorys={CATEGORIES}
             placeholder="목표 카테고리"
           />
-
           <SelectCategory
             setData={setTargetCategory}
             defaultValue={defaultValue?.studyInfo.targetCategory}
@@ -369,7 +371,6 @@ export default function StudyForm({
               className="w-32 text-right"
               onChange={(e) => {
                 console.log("free", free, freeChecked);
-
                 setFree(parseInt(e.target.value));
               }}
               value={!freeChecked ? free : 0}
@@ -500,7 +501,6 @@ export default function StudyForm({
           ))}
         </div>
       </GridField>
-
       <div className="flex gap-gutter-xl items-center justify-center mt-24">
         <LinkButton href="/study" variation="outline" size="form">
           작성 취소

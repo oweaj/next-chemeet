@@ -5,7 +5,7 @@ import clsx from "clsx";
 export type TImageThumbnailProps = ImageProps & {
   src: string;
   alt: string;
-  useIn?: "default" | "specific" | "linked" | "wide" | "large";
+  useIn?: "default" | "specific" | "linked" | "large";
 };
 
 /**
@@ -14,10 +14,9 @@ export type TImageThumbnailProps = ImageProps & {
 
 export default function Thumbnail(props: TImageThumbnailProps) {
   const defaultSize = {
-    default: { width: 268, height: 180 },
+    default: { width: 280, height: 180 },
     specific: { width: 582, height: 438 },
     linked: { width: 200, height: 132 },
-    wide: { width: 588, height: 180 },
     large: { width: 392, height: 448 },
   };
   const {
@@ -35,9 +34,8 @@ export default function Thumbnail(props: TImageThumbnailProps) {
       height={height}
       src={src || DefaultThumbnailImg}
       alt={alt}
-      // loading={"lazy" | "eager"}
       className={clsx(
-        "thumbnailImage object-cover min-w-full w-auto h-auto bg-line-neutral/80",
+        "thumbnailImage object-cover bg-line-neutral/80",
         className
       )}
       {...restProps}

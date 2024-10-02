@@ -1,9 +1,10 @@
 "use client";
-import { MouseEvent, useEffect, useState } from "react";
+
+import { MouseEvent, useState } from "react";
 import { GOALS } from "@/constants/categories/study_goal";
 import { categoryIconsName, CategoryTabIcon } from "./TabIcons";
 import { StudyDataFull } from "@/types/model/StudyCard";
-import StudyCardList from "@/common/Templates/CardList";
+import StudyCardList from "@/app/(route)/study/_components/CardList";
 import { TabButton } from "./TabButton";
 
 const GOALS_TAB = GOALS.map((goal, index) => ({
@@ -66,7 +67,7 @@ export default function MainSectionOfGoals({
         })}
       </div>
       {studies.length > 0 ? (
-        <StudyCardList studyCards={studies} count={8} />
+        <StudyCardList studyCards={studies} />
       ) : (
         <Empty text="해당 목표를 가진 스터디가 없어요. 다른 목표를 선택해보세요." />
       )}
@@ -76,9 +77,8 @@ export default function MainSectionOfGoals({
 
 function Empty({ text }: { text: string }) {
   return (
-    <div
-      className=
-        "flex flex-col items-center justify-center gap-4 w-full h-[19rem] border rounded-3xl text-label-dimmed text-center"
-    >{text}</div>
-  )
+    <div className="flex flex-col items-center justify-center gap-4 w-full h-[19rem] border rounded-3xl text-label-dimmed text-center">
+      {text}
+    </div>
+  );
 }

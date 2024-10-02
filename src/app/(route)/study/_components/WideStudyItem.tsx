@@ -12,15 +12,17 @@ export default function WideStudyItem({ card }: { card: StudyDataFull }) {
   const resultDay = dayjs(nowDay).diff(recruitmentDay, "days");
 
   return (
-    <Link href={`/study/${card.studyId}`} className="h-[11.25rem] relative">
+    <Link
+      href={`/study/${card.studyId}`}
+      className="h-[11.25rem] relative hover:scale-105 transition-all duration-300"
+    >
       <Thumbnail
         src={card.studyInfo.thumbnailUrl || ""}
         className="absolute rounded-[1.25rem] h-full"
-        useIn="wide"
+        useIn="default"
         alt={`${card.studyInfo.title} 스터디 썸네일 이미지`}
       />
-
-      <div className="w-full h-full absolute bg-gradient-to-r from-black/30 to-black bg-no-repeat rounded-[1.25rem]">
+      <div className="absolute w-full h-full flex items-center bg-gradient-to-r from-black/25 to-black bg-no-repeat rounded-[1.25rem]">
         <Keyword
           bg={`${resultDay > 0 ? "bg-slate-700" : "bg-status-danger"}`}
           text="text-white"
@@ -28,8 +30,8 @@ export default function WideStudyItem({ card }: { card: StudyDataFull }) {
         >
           {resultDay > 0 ? "모집마감" : "모집중"}
         </Keyword>
-        <div className="absolute bottom-5 flex items-end justify-between px-5 w-full">
-          <div className="flex items-center gap-[.25rem]">
+        <div className="absolute w-full flex flex-col items-end px-6 gap-6">
+          <div className="w-2/5 flex justify-end gap-[.25rem]">
             <Profile
               size="small"
               user={
@@ -44,14 +46,14 @@ export default function WideStudyItem({ card }: { card: StudyDataFull }) {
               }
             />
           </div>
-          <div className="flex flex-col w-1/2">
+          <div className="flex flex-col justify-center w-2/5">
             <span className="text-label-400 font-light text-white">
               {card.studyInfo.jobCategory.label}
             </span>
             <p className="text-lg font-semibold text-white line-clamp-2">
               {card.studyInfo.title}
             </p>
-            <div className="mt-2 flex gap-1">
+            <div className="mt-2 flex gap-2">
               <Keyword
                 text="text-line-neutral"
                 className="border border-line-neutral"

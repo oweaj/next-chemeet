@@ -10,7 +10,7 @@ import Link from "next/link";
 import Keyword from "../Atoms/Text/Keyword";
 import Thumbnail from "../Atoms/Image/Thumbnail";
 import dayjs from "dayjs";
-import { StudyDataFull, StudySchema } from "@/types/model/StudyCard";
+import { StudyDataFull } from "@/types/model/StudyCard";
 import Profile from "../Molecules/Profile";
 import { NULL_USER_FOR_PROFILE } from "@/constants/null_user";
 
@@ -40,7 +40,7 @@ export default function StudyCardItem({ card }: { card: StudyDataFull }) {
             blurDataURL={card.studyInfo?.thumbnailUrl + "?blur=2"}
             src={card.studyInfo?.thumbnailUrl || ""}
             alt={`${card.studyInfo?.title} thumbnail`}
-            className="thumbnailImage object-cover min-w-full w-auto h-[100%]"
+            className="thumbnailImage object-contain min-w-full w-auto h-[100%]"
           />
         </div>
         <div className="block my-4 px-3 h-[7.5rem]">

@@ -1,16 +1,19 @@
 import SectionTitle from "@/common/Atoms/Text/SectionTitle";
-import StudyCardList from "@/common/Templates/CardList";
-
 import BackButton from "../../_components/BackButton";
 import StudyDetail from "./_components/StudyDetail";
-
-import { getStudy } from "@/lib/actions/studyAction";
 import { StudyDataFull } from "@/types/model/StudyCard";
 import { Study } from "@/lib/schema";
 import { revalidateTag } from "next/cache";
 import { cfetch } from "@/utils/customFetch";
 import { notFound } from "next/navigation";
 import ControlButton from "./_components/ControlButton";
+import StudyCardList from "../_components/CardList";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { getStudy } from "@/lib/actions/studyAction";
 
 async function increaseViewCount(studyId: string) {
   try {
@@ -33,6 +36,12 @@ export default async function StudyDetailPage({
 }) {
   // studyDetail api
   await increaseViewCount(studyPostId);
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["study", studyPostId],
+    queryFn: () => getStudy(studyPostId),
+  });
 
   const studyDetail = await cfetch(`api/study/${studyPostId}`, {
     next: { tags: ["study", studyPostId] },
@@ -48,27 +57,21 @@ export default async function StudyDetailPage({
 
   const study = studyDetail.data as StudyDataFull;
 
-  // studylist
-  const result = await getStudy();
-  let studyCardLists: StudyDataFull;
-  studyCardLists = result.data;
-
-  const studyCards = JSON.parse(JSON.stringify(studyCardLists));
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <div>
+    <HydrationBoundary state={dehydratedState}>
       <div className="flex justify-between items-start">
         <BackButton />
         <ControlButton study={study} />
       </div>
-      <StudyDetail study={study} />
-
+      <StudyDetail studyPostId={studyPostId} />
       <div className="mt-20">
         <SectionTitle size="md" className="pb-5">
           비슷한 스터디들
         </SectionTitle>
-        <StudyCardList studyCards={studyCards} count={4} />
+        <StudyCardList />
       </div>
-    </div>
+    </HydrationBoundary>
   );
 }
