@@ -8,8 +8,8 @@ import { ReactNode, useMemo } from "react";
 import AlertList from "@/app/_components/AlertList";
 import { cfetch } from "@/utils/customFetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAlert } from "@/lib/actions/alertAction";
 import { TAlertItem } from "@/types/model/Alert";
+import { getAlert } from "@/lib/actions/alertAction";
 
 export default function DesktopMenu({
   profileImage,
