@@ -22,7 +22,7 @@ export type StudySchema = {
     curriculums: string[];
     rules: string[];
   };
-  writer: string;
+  writer: ProfileSchema;
   heartCount: number;
   createAt: string;
   comments: CommentId[];
@@ -36,3 +36,8 @@ export type StudyDataFull = Omit<StudySchema, "writer" | "comments"> & {
   writer: ProfileSchema;
   comments: CommentSchema[];
 };
+
+export type StudyValue = Omit<
+  StudySchema,
+  "writer" | "comments" | "createdAt" | "heartCount"
+>;
