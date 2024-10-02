@@ -26,7 +26,7 @@ export default function Profile({
   const style = {
     default: "text-H4 text-label-normal",
     large: "text-H4 text-label-normal",
-    small: "text-label-600 text-label-dimmed",
+    small: "text-label-600 text-white",
   };
 
   const src = user.profile_img || "/images/profile/DummyProfileImg.jpg";
