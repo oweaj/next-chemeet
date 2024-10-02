@@ -68,7 +68,7 @@ export default function FormEditProfileImageWithPreview({
       const formData = new FormData();
       formData.append("file", resizeImage);
 
-      const upload = await supabaseUploadImage(formData);
+      const upload = await supabaseUploadImage("profile", formData);
       return upload;
     },
     onSuccess: (upload) => {
