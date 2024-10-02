@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { allReadAlert, updateAlert } from "@/lib/actions/AlertAction";
+import { allReadAlert, updateAlert } from "@/lib/actions/alertAction";
 
 export async function PATCH(
   request: NextRequest,
