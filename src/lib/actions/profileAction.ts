@@ -3,7 +3,6 @@
 import { revalidatePath } from "next/cache";
 import connectDB from "../db";
 import { User } from "../schema";
-import { getSession } from "@/auth";
 import { UserSchema } from "@/types/model/User";
 import { supabase } from "../supabase";
 import { nanoid } from "nanoid";
@@ -94,14 +93,14 @@ export async function updateUserData(id: string, updateDoc: UpdateDocument) {
   }
 }
 
-export async function supabaseUploadImage(formData: FormData) {
+export async function supabaseUploadImage(doc: string, formData: FormData) {
   const file = formData.get("file") as File;
   const fileName = nanoid();
 
   try {
     const { error } = await supabase.storage
       .from("image")
-      .upload(`profile_image/${fileName}`, file);
+      .upload(`${doc}/${fileName}`, file);
 
     if (error) {
       return { state: false, message: "이미지 파일이 업로드 되지않았습니다." };
@@ -109,7 +108,7 @@ export async function supabaseUploadImage(formData: FormData) {
 
     const { data } = supabase.storage
       .from("image")
-      .getPublicUrl(`profile_image/${fileName}`);
+      .getPublicUrl(`${doc}/${fileName}`);
 
     return { state: true, result: data.publicUrl };
   } catch (error) {

@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import connectDB from "../db";
 import { Alert, Study } from "../schema";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { supabase } from "../supabase";
+import { StudySchema } from "@/types/model/StudyCard";
 
 // post
 export async function createStudy(userId: string, formData: FormData) {
@@ -108,53 +108,29 @@ export async function createStudy(userId: string, formData: FormData) {
   }
 }
 
-// ThumbnailImage
-export async function supabaseThumbnailImage(formData: FormData) {
-  const file = formData.get("file") as string;
-  const fileName = nanoid();
-
-  try {
-    const { error } = await supabase.storage
-      .from("image")
-      .upload(`study/${fileName}`, file);
-
-    if (error) {
-      return {
-        state: false,
-        message: "썸네일 이미지 파일이 업로드 되지 않았습니다.",
-      };
-    }
-
-    const { data } = supabase.storage
-      .from("image")
-      .getPublicUrl(`study/${fileName}`);
-    return { state: true, result: data.publicUrl };
-  } catch (err) {
-    return { state: false, message: "썸네일 이미지 업로드에 실패했습니다." };
-  }
-}
-
 // get
 export async function getStudy(studyId: string | null = null) {
   await connectDB();
 
   try {
     if (studyId) {
-      const study = await Study.findOne({ studyId })
+      const study: StudySchema | null = await Study.findOne({ studyId })
         .populate("comments")
         .populate(
           "writer",
           "name email role profile_img position_tag introduce my_category"
         );
+
       if (!study) {
         return { state: false, message: "해당 스터디를 찾을 수 없습니다." };
       }
-      return { state: true, data: study };
+
+      return { state: true, data: JSON.parse(JSON.stringify(study)) };
     } else {
       const studyList = await Study.find()
         .populate("writer", "name email role profile_img position_tag")
         .sort({ createAt: "desc" });
-      return { state: true, data: studyList };
+      return { state: true, data: JSON.parse(JSON.stringify(studyList)) };
     }
   } catch (error) {
     console.log(error);
