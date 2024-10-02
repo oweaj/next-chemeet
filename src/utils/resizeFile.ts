@@ -4,8 +4,8 @@ export function resizeFile(file: File): Promise<File> {
   return new Promise((resolve) => {
     Resizer.imageFileResizer(
       file,
-      300,
-      300,
+      700,
+      700,
       "JPEG",
       80,
       0,
