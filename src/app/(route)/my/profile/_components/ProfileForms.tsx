@@ -10,16 +10,19 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { prefetchData } from "@/utils/prefetchData";
+import { getUserData } from "@/lib/actions/userAction";
 
 export default async function ProfileForms() {
+  const queryClient = new QueryClient();
   const session = await getSession();
   const userId = session?.user.id as string;
   const sessionProvider = session?.account.provider;
-  const queryClient = new QueryClient();
 
   if (userId) {
-    await prefetchData(queryClient, userId, "profile");
+    await queryClient.prefetchQuery({
+      queryKey: ["profile", userId],
+      queryFn: () => getUserData(userId),
+    });
   } else {
     return;
   }

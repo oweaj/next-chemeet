@@ -7,14 +7,17 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { prefetchData } from "@/utils/prefetchData";
+import { getAlert } from "@/lib/actions/alertAction";
 
 export default async function SessionedHeader({ userId }: { userId: string }) {
   const queryClient = new QueryClient();
   let user;
 
   if (userId) {
-    await prefetchData(queryClient, userId, "alert");
+    await queryClient.prefetchQuery({
+      queryKey: ["alert", userId],
+      queryFn: () => getAlert(userId),
+    });
     const result = await getUserData(userId);
     user = result.data;
   } else {
