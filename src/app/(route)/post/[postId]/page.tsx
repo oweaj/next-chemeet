@@ -71,7 +71,7 @@ export default async function PostDetail({
             <p className="text-label-400 text-label-dimmed flex flex-row gap-8 items-center">
               <span>{getCreatedBefore(post.createdAt)}</span>
               {session?.user.id !== undefined &&
-                String(session?.user.id) === String(post.writer?._id) && (
+                String(session?.user.id) === String(post.writer._id) && (
                   <>
                     <Link
                       href={`/post/write/${post.postId}`}
