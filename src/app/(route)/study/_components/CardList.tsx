@@ -1,21 +1,14 @@
-"use client";
-
-import { StudyDataFull } from "@/types/model/StudyCard";
+import { StudyDataFull, StudySchema } from "@/types/model/StudyCard";
 import StudyCardItem from "@/common/Organisms/StudyCardItem";
-import { useQuery } from "@tanstack/react-query";
-import { getStudy } from "@/lib/actions/studyAction";
 
 export default function StudyCardList({
   studyCards,
+  count,
 }: {
-  studyCards?: StudyDataFull[];
+  studyCards: StudyDataFull[];
+  count?: number;
 }) {
-  const { data } = useQuery({
-    queryKey: ["study"],
-    queryFn: () => getStudy(),
-  });
-
-  const studyList = studyCards || data?.data || [];
+  const studyList = count ? studyCards.slice(0, count) : studyCards;
 
   return (
     <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">

@@ -33,6 +33,14 @@ export default async function StudyComponent({
 }) {
   const session = await getSession();
   const queryClient = new QueryClient();
+  const result = await getStudy();
+  let studyCard;
+
+  if (result.state) {
+    studyCard = result.data;
+  } else {
+    studyCard = [];
+  }
 
   await queryClient.prefetchQuery({
     queryKey: ["study"],
@@ -86,13 +94,13 @@ export default async function StudyComponent({
           <SectionTitle size="md" className="pb-6">
             오늘의 프로 스터디를 통해 빠른 성장을 경험해 보세요!
           </SectionTitle>
-          <StudyCardList />
+          <StudyCardList studyCards={studyCard} count={4} />
         </div>
         <div>
           <SectionTitle size="md" className="pb-6">
             프로없이, 우리끼리도 스터디해요
           </SectionTitle>
-          <StudyCardList />
+          <StudyCardList studyCards={studyCard} count={4} />
         </div>
         <div>
           <SectionTitle size="md" className="pb-6">

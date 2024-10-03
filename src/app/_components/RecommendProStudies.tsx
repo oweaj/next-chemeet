@@ -14,5 +14,5 @@ export default async function RecommendProStudies() {
 
   const recommend: StudyDataFull[] = response?.data ?? [];
 
-  return <StudyCardList studyCards={recommend} />;
+  return <StudyCardList studyCards={recommend} count={8} />;
 }

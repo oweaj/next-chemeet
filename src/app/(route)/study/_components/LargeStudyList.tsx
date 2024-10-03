@@ -11,7 +11,7 @@ export default function LargeStudyList() {
     queryFn: () => getStudy(),
   });
 
-  const studyList = data?.data;
+  const studyList = (data?.data).slice(0, 3);
 
   return (
     <div className="grid grid-cols-3 gap-3">

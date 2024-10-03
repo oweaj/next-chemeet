@@ -16,5 +16,5 @@ export default async function RecommendLatestStudies() {
 
   console.log(latest);
 
-  return <StudyCardList studyCards={latest} />;
+  return <StudyCardList studyCards={latest} count={8} />;
 }

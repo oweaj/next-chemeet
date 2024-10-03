@@ -11,7 +11,7 @@ export default function WideStudyList() {
     queryFn: () => getStudy(),
   });
 
-  const studyList = data?.data;
+  const studyList = (data?.data).slice(0, 2);
 
   return (
     <div className="grid grid-cols-2 gap-6">

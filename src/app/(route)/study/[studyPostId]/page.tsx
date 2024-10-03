@@ -1,4 +1,3 @@
-import SectionTitle from "@/common/Atoms/Text/SectionTitle";
 import BackButton from "../../_components/BackButton";
 import StudyDetail from "./_components/StudyDetail";
 import { StudyDataFull } from "@/types/model/StudyCard";
@@ -7,7 +6,6 @@ import { revalidateTag } from "next/cache";
 import { cfetch } from "@/utils/customFetch";
 import { notFound } from "next/navigation";
 import ControlButton from "./_components/ControlButton";
-import StudyCardList from "../_components/CardList";
 import {
   dehydrate,
   HydrationBoundary,
@@ -66,12 +64,6 @@ export default async function StudyDetailPage({
         <ControlButton study={study} />
       </div>
       <StudyDetail studyPostId={studyPostId} />
-      <div className="mt-20">
-        <SectionTitle size="md" className="pb-5">
-          비슷한 스터디들
-        </SectionTitle>
-        <StudyCardList />
-      </div>
     </HydrationBoundary>
   );
 }
