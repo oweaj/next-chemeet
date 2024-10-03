@@ -12,8 +12,6 @@ export default async function Page({
 
   const defaultValue: StudySchema = result.data;
 
-  console.log(result);
-
   return (
     <>
       <SectionTitle size="lg" className="pb-6 border-b border-black">
