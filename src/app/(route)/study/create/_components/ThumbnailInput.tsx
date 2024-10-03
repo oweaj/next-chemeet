@@ -7,7 +7,7 @@ import handleAlert from "@/common/Molecules/handleAlert";
 import { supabaseUploadImage } from "@/lib/actions/profileAction";
 import { resizeFile } from "@/utils/resizeFile";
 import { DefaultThumbnailImg } from "@public/images";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { ChangeEvent, useRef } from "react";
 
 export default function ThumbnailInput({
@@ -15,8 +15,8 @@ export default function ThumbnailInput({
   setImageUrl,
   defaultValue,
 }: {
-  imageUrl: string;
-  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
+  imageUrl: string | null;
+  setImageUrl: React.Dispatch<React.SetStateAction<string | null>>;
   defaultValue?: string | null;
 }) {
   const fileInput = useRef<HTMLInputElement>(null);
@@ -29,16 +29,19 @@ export default function ThumbnailInput({
 
       const previewUrl = URL.createObjectURL(file);
       setImageUrl(previewUrl);
+
       const resizeImage = await resizeFile(file);
       const formData = new FormData();
       formData.append("file", resizeImage);
 
       const upload = await supabaseUploadImage("study", formData);
       if (upload.state && upload.result) {
-        setImageUrl(upload.result);
+        setImageUrl(upload.result || "");
       } else {
         handleAlert("error", upload.message);
       }
+    } else {
+      setImageUrl(null);
     }
   }
 
@@ -117,7 +120,7 @@ export default function ThumbnailInput({
           <button
             type="button"
             className="w-full mt-2 text-sm font-medium border py-2 rounded-lg text-label-dimmed hover:bg-gray-100 hover:text-gray-600"
-            onClick={() => setImageUrl("")}
+            onClick={() => setImageUrl(null)}
           >
             이미지 제거
           </button>

@@ -25,30 +25,15 @@ export async function createStudy(userId: string, formData: FormData) {
   const rules = JSON.parse(formData.get("rules") as string);
   const curriculums = JSON.parse(formData.get("curriculums") as string);
 
-  console.log(
-    title,
-    thumbnailUrl,
-    jobCategory,
-    targetCategory,
-    expense,
-    recruitmentPeople,
-    recruitmentPeriod,
-    studyPeriod,
-    location,
-    place,
-    content,
-    rules,
-    curriculums
-  );
-
   if (
     !title ||
     !jobCategory ||
-    !targetCategory ||
-    !expense ||
     !recruitmentPeople ||
     !recruitmentPeriod ||
+    expense === undefined ||
+    expense === null ||
     !studyPeriod ||
+    !targetCategory ||
     !location ||
     !content
   ) {
@@ -127,7 +112,7 @@ export async function getStudy(studyId: string | null = null) {
 
       return { state: true, data: JSON.parse(JSON.stringify(study)) };
     } else {
-      const studyList = await Study.find()
+      const studyList: StudySchema[] = await Study.find()
         .populate("writer", "name email role profile_img position_tag")
         .sort({ createAt: "desc" });
       return { state: true, data: JSON.parse(JSON.stringify(studyList)) };

@@ -20,8 +20,6 @@ import { StudySchema } from "@/types/model/StudyCard";
 import { cfetch } from "@/utils/customFetch";
 import SelectCategory from "./SelectCategory";
 import CalenarDates from "./CalenarDates";
-import { DefaultThumbnailImg } from "@public/images";
-import { StaticImageData } from "next/image";
 
 type CategoryOption = {
   readonly label: string;
@@ -53,8 +51,8 @@ export default function StudyForm({
       );
   };
 
-  const [imageUrl, setImageUrl] = useState<string>(
-    defaultValue?.studyInfo.thumbnailUrl || ""
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    defaultValue?.studyInfo.thumbnailUrl || null
   );
 
   // 스터디 카테고리
@@ -104,7 +102,9 @@ export default function StudyForm({
 
   // 참가비용
   const [freeChecked, setFreeChecked] = useState<boolean>(false);
-  const [free, setFree] = useState<number>(0);
+  const [free, setFree] = useState<number>(
+    defaultValue?.studyInfo.expense || 0
+  );
   useEffect(() => {
     if (freeChecked === true) setFree(0);
   }, [freeChecked]);
@@ -192,6 +192,8 @@ export default function StudyForm({
 
     if (imageUrl) {
       formData.append("thumbnailUrl", imageUrl);
+    } else {
+      formData.append("thumbnailUrl", "");
     }
 
     if (jobCategory) {
@@ -205,6 +207,10 @@ export default function StudyForm({
       formData.append("location", JSON.stringify(locationCategory));
     }
 
+    if (locationCategory?.value === "offline" && !placeChecked) {
+      formData.append("place", place);
+    }
+
     if (formRecruitmentDates) {
       formData.append(
         "recruitmentPeriod",
@@ -216,24 +222,16 @@ export default function StudyForm({
       formData.append("studyPeriod", JSON.stringify(formStudyDates));
     }
 
-    // 참가 비용
-    // formData.append("expense", freeChecked ? "0" : free.toString());
-
-    // 스터디 방식 및 장소
-    // formData.append("location", locationCategory?.value || "");
-    // if (locationCategory?.value === "offline" && !placeChecked) {
-    //   formData.append("place", place);
-    // }
+    formData.append("expense", freeChecked ? "0" : free.toString());
 
     if (content) {
       formData.append("content", content);
     }
-    // 스터디 규칙 추가
+
     if (ruleList) {
       formData.append("rules", JSON.stringify(ruleList));
     }
 
-    // 세부 커리큘럼 추가
     if (curriculumList) {
       formData.append("curriculums", JSON.stringify(curriculumList));
     }
@@ -369,21 +367,16 @@ export default function StudyForm({
               required
               placeholder="0"
               className="w-32 text-right"
-              onChange={(e) => {
-                console.log("free", free, freeChecked);
-                setFree(parseInt(e.target.value));
-              }}
+              onChange={(e) => setFree(parseInt(e.target.value))}
               value={!freeChecked ? free : 0}
               disabled={freeChecked}
-              defaultValue={defaultValue?.studyInfo.expense}
             />
             <span>원</span>
           </div>
           <ButtonCheck>
-            <ButtonCheck.Radio
-              onClick={FreeCheckedHandler}
+            <ButtonCheck.Checkbox
+              onChange={FreeCheckedHandler}
               checked={freeChecked}
-              defaultChecked={freeChecked}
               id="free"
               label="참가비 무료"
             />
@@ -408,20 +401,18 @@ export default function StudyForm({
                 className="min-w-[378px]"
                 placeholder="주소를 입력해주세요."
                 onChange={(e) => setPlace(e.target.value)}
-                defaultValue={
+                value={
                   defaultValue?.studyInfo.place
                     ? defaultValue?.studyInfo.place
                     : place
                 }
                 disabled={placeChecked}
-                readOnly
               />
               <ButtonCheck>
-                <ButtonCheck.Radio
+                <ButtonCheck.Checkbox
                   id="place-whether"
                   onChange={PlaceCheckedHandler}
                   checked={placeChecked}
-                  defaultChecked={placeChecked}
                   label="장소 미정"
                 />
               </ButtonCheck>
