@@ -6,8 +6,53 @@ import "react-quill/dist/quill.snow.css";
 import "./customQuill.css";
 import clsx from "clsx";
 
+const modules = {
+  toolbar: [
+    [/* "image", */ "link"],
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"],
+    [
+      { align: "justify" },
+      { align: "" },
+      { align: "center" },
+      { align: "right" },
+    ],
+    [{ list: "ordered" }, { list: "bullet" }],
+    [{ indent: "-1" }, { indent: "+1" }],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
+
+const formats = [
+  "header",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "link",
+  "image",
+  "align",
+  "list",
+  "indent",
+];
+
+// QuillNoSSR.defaultProps = {
+//   theme: "snow",
+//   modules,
+//   formats,
+//   bounds: ".editor",
+// };
+
 type TForwardedQuillComponent = ReactQuillProps & {
   forwardedRef: React.Ref<ReactQuill>;
+  theme?: string;
+  modules?: object;
+  formats?: string[];
+  bounds?: string | HTMLElement;
 };
 
 const QuillNoSSR = dynamic(
@@ -105,11 +150,19 @@ const QuillNoSSR = dynamic(
     const Quill = ({
       forwardedRef,
       className = "",
+      theme = "snow",
+      modules,
+      formats,
+      bounds = ".editor",
       ...props
     }: TForwardedQuillComponent) => (
       <QuillComponent
         ref={forwardedRef}
         className={clsx("min-h-20 pb-[72px]", className)}
+        theme={theme}
+        modules={modules}
+        formats={formats}
+        bounds={bounds}
         {...props}
       />
     );
@@ -122,46 +175,5 @@ const QuillNoSSR = dynamic(
     ssr: false,
   }
 );
-
-const modules = {
-  toolbar: [
-    [/* "image", */ "link"],
-    [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline", "strike"],
-    [
-      { align: "justify" },
-      { align: "" },
-      { align: "center" },
-      { align: "right" },
-    ],
-    [{ list: "ordered" }, { list: "bullet" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-};
-
-const formats = [
-  "header",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "link",
-  "image",
-  "align",
-  "list",
-  "indent",
-];
-
-QuillNoSSR.defaultProps = {
-  theme: "snow",
-  modules,
-  formats,
-  bounds: ".editor",
-};
 
 export default QuillNoSSR;
