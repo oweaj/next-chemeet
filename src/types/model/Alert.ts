@@ -3,13 +3,20 @@ export type TAlertItem = {
   typeId: string;
   title: string;
   comments: {
+    _id: string;
     comment: string;
     read: boolean;
   }[];
 };
 
 export type TAlert = {
-  _id: string;
   alertList: TAlertItem[];
   allRead: boolean;
+};
+
+export type TAlertSort = {
+  type: "post" | "study";
+  comments: {
+    read: boolean;
+  }[];
 };

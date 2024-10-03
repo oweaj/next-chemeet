@@ -8,7 +8,7 @@ import { ReactNode, useMemo } from "react";
 import AlertList from "@/app/_components/AlertList";
 import { cfetch } from "@/utils/customFetch";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { TAlertItem } from "@/types/model/Alert";
+import { TAlert, TAlertItem, TAlertSort } from "@/types/model/Alert";
 import { getAlert } from "@/lib/actions/alertAction";
 
 export default function DesktopMenu({
@@ -29,7 +29,7 @@ export default function DesktopMenu({
 
   const alertList = useMemo(() => {
     return dataList
-      .flatMap(({ alertList }) =>
+      .flatMap(({ alertList }: TAlert) =>
         alertList.flatMap(({ type, typeId, title, comments }: TAlertItem) =>
           comments.map(({ _id, comment, read }) => ({
             type,
@@ -39,7 +39,7 @@ export default function DesktopMenu({
           }))
         )
       )
-      .sort((a, b) =>
+      .sort((a: TAlertSort, b: TAlertSort) =>
         a.comments[0].read === b.comments[0].read
           ? 0
           : a.comments[0].read
@@ -48,7 +48,7 @@ export default function DesktopMenu({
       );
   }, [dataList]);
 
-  const commentReadList = dataList.flatMap(({ alertList }) =>
+  const commentReadList = dataList.flatMap(({ alertList }: TAlert) =>
     alertList.flatMap(({ comments }) => comments.map(({ read }) => read))
   );
 
@@ -104,7 +104,7 @@ export default function DesktopMenu({
             </div>
             <ul className="max-h-80 overflow-y-auto border-y my-3">
               {commentReadList.length ? (
-                alertList.map((alert) => (
+                alertList.map((alert: TAlertItem) => (
                   <li
                     key={alert.comments[0]._id}
                     className="relative"
