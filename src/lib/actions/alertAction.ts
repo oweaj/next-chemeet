@@ -20,21 +20,6 @@ export async function getAlert(userId: string) {
       return { state: false };
     }
 
-    // const data = result.map((item) => ({
-    //   ...item,
-    //   _id: item._id.toString(),
-    //   alertList: item.alertList.map((alertItem) => {
-    //     const { _id, ...rest } = alertItem;
-    //     return {
-    //       ...rest,
-    //       comments: alertItem.comments.map((comment) => ({
-    //         ...comment,
-    //         _id: comment._id.toString(),
-    //       })),
-    //     };
-    //   }),
-    // }));
-
     const data = JSON.parse(JSON.stringify(result));
 
     return { state: true, data };
