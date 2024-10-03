@@ -12,22 +12,13 @@ export async function getUserData(userId: string) {
   await connectDB();
 
   try {
-    const result: ProfileSchema | null = await User.findById(userId).lean();
+    const result: ProfileSchema | null = await User.findById(userId);
 
     if (!result) {
       return { state: false, message: "사용자 데이터를 찾을 수 없습니다." };
     }
 
-    const data = {
-      ...result,
-      _id: result._id.toString(),
-      my_category: result.my_category.map((category) => {
-        const { _id, ...rest } = category;
-        return {
-          ...rest,
-        };
-      }),
-    };
+    const data = JSON.parse(JSON.stringify(result));
 
     return { state: true, data };
   } catch (error: any) {

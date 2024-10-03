@@ -1,10 +1,8 @@
 export type TAlertItem = {
-  _id?: string;
   type: "post" | "study";
   typeId: string;
   title: string;
   comments: {
-    _id: string;
     comment: string;
     read: boolean;
   }[];

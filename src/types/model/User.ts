@@ -1,7 +1,6 @@
 import { TSelectOption } from "./Category";
 
 export type UserSchema = {
-  _id: string;
   email: string;
   name: string;
   profile_img: string;
@@ -19,5 +18,5 @@ export type ProfileSchema = UserSchema & {
 
 export type WriterSchema = Pick<
   ProfileSchema,
-  "_id" | "name" | "email" | "role" | "profile_img" | "position_tag"
+  "name" | "email" | "role" | "profile_img" | "position_tag"
 >;
