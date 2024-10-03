@@ -36,17 +36,20 @@ function RadioButton(
 function CheckboxButton(
   props: React.ComponentProps<"input"> & { label: string }
 ) {
-  const { label, type, ...restProps } = props;
+  const { id, label, type, checked, onChange, ...restProps } = props;
   return (
     <>
       <input
+        id={id}
         type="checkbox"
-        className="hidden [&:checked+label]:border-black [&:checked+label]:text-black"
+        checked={checked}
+        onChange={onChange}
+        className="invisible w-0 h-0 absolute [&:checked+label]:bg-black [&:checked+label]:text-white"
         {...restProps}
       />
       <label
-        htmlFor="location-off"
-        className="border border-black/35 text-black/35 rounded-full px-[27px] py-2"
+        htmlFor={id}
+        className="border border-black/35 text-black/35 rounded-full px-[27px] py-2 cursor-pointer"
       >
         {label}
       </label>
