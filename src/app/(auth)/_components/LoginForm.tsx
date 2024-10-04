@@ -82,12 +82,32 @@ export function LoginForm() {
 }
 
 export function SocialLoginForm() {
+  const [isPending, startTransition] = useTransition();
+
+  function handleSocialLogin(provider: string) {
+    handleAlert("loading", "로그인 중 입니다.");
+
+    try {
+      startTransition(async () => {
+        const result = await signIn(provider, { callbackUrl: "/" });
+        if (!result?.error) {
+          handleAlert("success", "로그인 되었습니다.");
+        } else {
+          handleAlert("error", "아이디와 비밀번호를 다시 확인해주세요.");
+        }
+      });
+    } catch (error) {
+      handleAlert("error", "로그인 중 문제가 발생했습니다.");
+    }
+  }
+
   return (
     <div className="flex items-center justify-center gap-4">
       {socialLoginList.map(({ provider, icon }) => (
         <button
           key={provider}
-          onClick={() => signIn(provider, { callbackUrl: "/" })}
+          onClick={() => handleSocialLogin(provider)}
+          disabled={isPending}
         >
           <Image src={icon} alt={`${provider} 로그인`} />
         </button>
