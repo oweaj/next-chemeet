@@ -14,7 +14,5 @@ export default async function RecommendLatestStudies() {
 
   const latest: StudyDataFull[] = response?.data ?? [];
 
-  console.log(latest);
-
   return <StudyCardList studyCards={latest} count={8} />;
 }

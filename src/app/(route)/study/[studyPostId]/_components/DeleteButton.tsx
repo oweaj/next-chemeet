@@ -27,8 +27,6 @@ export default function DeleteButton({ studyId }: { studyId: string }) {
         return { state: false, message: "스터디삭제에 실패했습니다." };
       });
 
-    console.log("result", result);
-
     if (!result?.state) {
       setDisabled(() => false);
       handleAlert("error", result.message);
