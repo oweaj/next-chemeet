@@ -10,4 +10,5 @@ export const MYPAGE_MENUS = [
     href: `/my/like-study`,
     label: "찜한 스터디",
   },
+  { key: "post", href: `/my/post`, label: "내가 작성한 글" },
 ];
