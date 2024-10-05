@@ -1,18 +1,20 @@
+"use client";
+
+import { getStudy } from "@/lib/actions/studyAction";
 import StudyCardList from "../(route)/study/_components/CardList";
 import { StudyDataFull } from "@/types/model/StudyCard";
-import { cfetch } from "@/utils/customFetch";
+import { useQuery } from "@tanstack/react-query";
 
-export default async function RecommendLatestStudies() {
-  const response = await cfetch("/api/study-matching/latest", {
-    next: { tags: ["study"] },
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => err);
+export default function RecommendLatestStudies() {
+  const { data } = useQuery({
+    queryKey: ["study"],
+    queryFn: () => getStudy(),
+  });
 
-  const latest: StudyDataFull[] = response?.data ?? [];
+  const studyData: StudyDataFull[] = data?.data.sort(
+    (a: { createdAt: string }, b: { createdAt: string }) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 
-  return <StudyCardList studyCards={latest} count={8} />;
+  return <StudyCardList studyCards={studyData} count={8} />;
 }

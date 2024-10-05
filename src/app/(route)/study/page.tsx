@@ -72,9 +72,11 @@ export default async function StudyComponent({
       </div>
       <div className="flex gap-[6.25rem] flex-col">
         <div>
-          <SectionTitle size="md" className="pb-6">
-            {session?.user.name}님이 찾던 케미 좋은 프로 스터디
-          </SectionTitle>
+          {session?.user.name && (
+            <SectionTitle size="md" className="pb-6">
+              {session?.user.name}님이 찾던 케미 좋은 프로 스터디
+            </SectionTitle>
+          )}
           <div className="flex flex-col gap-6">
             <div>
               <SectionTitle size="sm" className="pb-3">

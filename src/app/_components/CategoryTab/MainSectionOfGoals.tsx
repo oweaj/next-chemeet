@@ -6,35 +6,28 @@ import { categoryIconsName, CategoryTabIcon } from "./TabIcons";
 import { StudyDataFull } from "@/types/model/StudyCard";
 import StudyCardList from "@/app/(route)/study/_components/CardList";
 import { TabButton } from "./TabButton";
+import { useQuery } from "@tanstack/react-query";
+import { getStudy } from "@/lib/actions/studyAction";
 
 const GOALS_TAB = GOALS.map((goal, index) => ({
   ...goal,
   iconName: categoryIconsName[index],
 }));
 
-export default function MainSectionOfGoals({
-  data,
-}: {
-  data: StudyDataFull[];
-}) {
+export default function MainSectionOfGoals() {
+  const { data } = useQuery({
+    queryKey: ["study"],
+    queryFn: () => getStudy(),
+  });
+
+  const studyData: StudyDataFull[] = data?.data;
+
   const initSelected: string = GOALS[0].value;
-  const initStudies: StudyDataFull[] = data.filter(
+  const initStudies: StudyDataFull[] = studyData.filter(
     (s) => s.studyInfo.targetCategory.value === initSelected
   );
   const [selected, setSelected] = useState<string>(initSelected);
   const [studies, setStudies] = useState<StudyDataFull[]>(initStudies);
-  // function changeSelecteTab(
-  //   e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-  //   value: string
-  // ) {
-  //   e.preventDefault();
-  //   console.log(":selected:", value);
-  //   setSelected(value);
-  //   const newSelected: StudyDataFull[] = data.filter(
-  //     (s) => s.studyInfo.targetCategory === value
-  //   );
-  //   setStudies(newSelected);
-  // }
 
   return (
     <>
@@ -52,7 +45,7 @@ export default function MainSectionOfGoals({
                 e.preventDefault();
                 console.log(":selected:", value);
                 setSelected(value);
-                const newSelected: StudyDataFull[] = data.filter(
+                const newSelected = studyData.filter(
                   (s) => s.studyInfo.targetCategory.value === value
                 );
                 setStudies(newSelected);

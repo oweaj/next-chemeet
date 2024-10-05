@@ -1,10 +1,7 @@
 import BackButton from "../../_components/BackButton";
 import StudyDetail from "./_components/StudyDetail";
-import { StudyDataFull } from "@/types/model/StudyCard";
 import { Study } from "@/lib/schema";
 import { revalidateTag } from "next/cache";
-import { cfetch } from "@/utils/customFetch";
-import { notFound } from "next/navigation";
 import ControlButton from "./_components/ControlButton";
 import {
   dehydrate,
@@ -32,7 +29,6 @@ export default async function StudyDetailPage({
 }: {
   params: { studyPostId: string };
 }) {
-  // studyDetail api
   await increaseViewCount(studyPostId);
   const queryClient = new QueryClient();
 
@@ -41,27 +37,13 @@ export default async function StudyDetailPage({
     queryFn: () => getStudy(studyPostId),
   });
 
-  const studyDetail = await cfetch(`api/study/${studyPostId}`, {
-    next: { tags: ["study", studyPostId] },
-  })
-    .then((res) => res.json())
-    .then(({ data }) => data)
-    .catch((err) => {
-      console.error(err.message);
-      return { state: false };
-    });
-
-  if (studyDetail.state === false) return notFound();
-
-  const study = studyDetail.data as StudyDataFull;
-
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="flex justify-between items-start">
         <BackButton />
-        <ControlButton study={study} />
+        <ControlButton studyPostId={studyPostId} />
       </div>
       <StudyDetail studyPostId={studyPostId} />
     </HydrationBoundary>
