@@ -1,4 +1,5 @@
 "use client";
+
 import DefaultSwiper from "../../../common/Molecules/DefaultSwiper";
 import UserReviewItem from "./UserReviewItem";
 import getMainReview from "@/constants/main_review";

@@ -27,6 +27,7 @@ export default function DefaultSwiper<T>(props: TDefaultSwiperProps<T>) {
             }}
             spaceBetween={24}
             slidesPerView={3.5}
+            initialSlide={1}
             centeredSlides={true}
             grabCursor={true}
             pagination={{
