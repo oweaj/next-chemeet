@@ -33,6 +33,7 @@ export function LoginForm() {
           router.replace("/");
           handleAlert("success", result.message);
         } else {
+          setPwData("");
           handleAlert("error", result.message);
         }
       });
