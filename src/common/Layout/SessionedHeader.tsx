@@ -8,8 +8,12 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getAlert } from "@/lib/actions/alertAction";
+import { getSession } from "@/auth";
+import Link from "next/link";
 
-export default async function SessionedHeader({ userId }: { userId: string }) {
+export default async function SessionedHeader() {
+  const session = await getSession();
+  const userId = session?.user.id;
   const queryClient = new QueryClient();
   let user;
 
@@ -21,7 +25,15 @@ export default async function SessionedHeader({ userId }: { userId: string }) {
     const result = await getUserData(userId);
     user = result.data;
   } else {
-    return;
+    return (
+      <Link
+        href="/login"
+        type="button"
+        className="py-2 px-4 border border-solid border-main-600 rounded-[.6rem] text-main-600 font-semibold"
+      >
+        로그인
+      </Link>
+    );
   }
 
   const dehydratedState = dehydrate(queryClient);
