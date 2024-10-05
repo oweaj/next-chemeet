@@ -4,12 +4,23 @@ import handleAlert from "@/common/Molecules/handleAlert";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-export default function ApplyButton({ resultDay }: { resultDay: number }) {
+export default function ApplyButton({
+  resultDay,
+  studyPostId,
+}: {
+  resultDay: number;
+  studyPostId: string;
+}) {
   const router = useRouter();
   const { data: session } = useSession();
+
   const onClickHandler = () => {
-    handleAlert("success", "참여가 완료되었습니다.");
-    router.back();
+    if (session?.user.id) {
+      handleAlert("success", "참여가 완료되었습니다.");
+      router.replace(`/study/${studyPostId}`);
+    } else {
+      router.replace("/login");
+    }
   };
 
   const disabledControl = resultDay <= 0 || !session?.user ? false : true;

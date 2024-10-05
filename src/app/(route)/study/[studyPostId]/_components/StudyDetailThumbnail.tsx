@@ -92,7 +92,7 @@ export default function StudyDetailThumbnail({
           >
             스터디룸 살펴보기
           </Link>
-          <ApplyButton resultDay={resultDay} />
+          <ApplyButton resultDay={resultDay} studyPostId={studyPostId} />
           <div className="flex items-center gap-3">
             <ShareIconButton />
             <SaveHeartButton heart={studyData.heartCount} />
