@@ -12,6 +12,7 @@ import Button from "@/common/Atoms/Form/Button";
 import {
   updateUserData,
   supabaseUploadImage,
+  supabaseDeleteImage,
 } from "@/lib/actions/profileAction";
 import { resizeFile } from "@/utils/resizeFile";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -102,6 +103,7 @@ export default function FormEditProfileImageWithPreview({
     onSuccess: (result) => {
       if (result.state) {
         setImageUrl("");
+        supabaseDeleteImage("profile", imageUrl);
         handleAlert("success", result.message);
         queryClient.invalidateQueries({ queryKey: ["profile", userId] });
       } else {

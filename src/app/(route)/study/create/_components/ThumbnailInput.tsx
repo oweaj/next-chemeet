@@ -4,7 +4,10 @@ import GridField from "@/common/Atoms/Form/Field";
 import { LabelText } from "@/common/Atoms/Form/Label";
 import { AdditionIcon } from "@/common/Atoms/Image/Icon";
 import handleAlert from "@/common/Molecules/handleAlert";
-import { supabaseUploadImage } from "@/lib/actions/profileAction";
+import {
+  supabaseDeleteImage,
+  supabaseUploadImage,
+} from "@/lib/actions/profileAction";
 import { resizeFile } from "@/utils/resizeFile";
 import { DefaultThumbnailImg } from "@public/images";
 import Image from "next/image";
@@ -45,9 +48,14 @@ export default function ThumbnailInput({
     }
   }
 
-  const onClickImageButton = () => {
+  async function thumbnailDelete() {
+    setImageUrl(null);
+    supabaseDeleteImage("study", imageUrl);
+  }
+
+  function onClickImageButton() {
     fileInput.current?.click();
-  };
+  }
 
   return (
     <GridField>
@@ -120,7 +128,7 @@ export default function ThumbnailInput({
           <button
             type="button"
             className="w-full mt-2 text-sm font-medium border py-2 rounded-lg text-label-dimmed hover:bg-gray-100 hover:text-gray-600"
-            onClick={() => setImageUrl(null)}
+            onClick={() => thumbnailDelete()}
           >
             이미지 제거
           </button>

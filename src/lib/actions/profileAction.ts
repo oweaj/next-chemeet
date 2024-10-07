@@ -115,3 +115,26 @@ export async function supabaseUploadImage(doc: string, formData: FormData) {
     return { state: false, message: "이미지 업로드에 실패했습니다." };
   }
 }
+
+export async function supabaseDeleteImage(doc: string, fileUrl: string | null) {
+  if (!fileUrl) {
+    return { state: false, message: "이미지 파일을 찾을 수 없습니다." };
+  }
+
+  const path = fileUrl.split("/");
+  const fileName = path.at(-1);
+
+  try {
+    const { error } = await supabase.storage
+      .from("image")
+      .remove([`${doc}/${fileName}`]);
+
+    if (error) {
+      return { state: false };
+    }
+
+    return { state: true };
+  } catch (error) {
+    return { state: false, message: "이미지 업로드에 실패했습니다." };
+  }
+}
