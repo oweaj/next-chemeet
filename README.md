@@ -1,5 +1,13 @@
 [![image](https://github.com/user-attachments/assets/31cc3274-77ab-4885-a15c-0006cf73d129)](https://chemeet.vercel.app/)
 
+---
+
+※ 현재 리팩토링 저장소이므로 프로젝트 정보 및 과정은 Organizations 참고
+
+- [CHEMEET - Organizations](https://github.com/woongteco)
+
+---
+
 # 케밋 프로젝트
 
 케밋(CHEMEET)은 기존 유데미 큐레이션([https://udemy.wjtb.co.kr/](https://udemy.wjtb.co.kr/))에서 확장된, 학습자에게 제공할 수 있는 강의에 대한 외부 SaaS형 추가 스터디 서비스로 기획되었습니다.
