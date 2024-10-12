@@ -32,19 +32,19 @@ export default async function Home() {
           <MainStatusBoard />
           <HydrationBoundary state={dehydratedState}>
             <section>
-              <SectionTitle size="md" className="mb-6">
+              <SectionTitle size="md" className="mb-8">
                 방금 만들어진 스터디 추천
               </SectionTitle>
               <RecommendLatestStudies />
             </section>
             <section>
-              <SectionTitle size="md" className="mb-6">
+              <SectionTitle size="md" className="mb-8">
                 인기 많은 스터디 추천
               </SectionTitle>
               <RecommendProStudies />
             </section>
             <section>
-              <SectionTitle size="md" className="mb-6">
+              <SectionTitle size="md" className="mb-8">
                 목표별 스터디 탐색하기
               </SectionTitle>
               <MainSectionOfGoals />
@@ -54,7 +54,7 @@ export default async function Home() {
       </Container>
       <section className="reviews-promotion my-100">
         <Container>
-          <SectionTitle size="md" className="mb-6">
+          <SectionTitle size="md" className="mb-8">
             케밋 스터디원들의 놀라운 성장 후기
           </SectionTitle>
         </Container>

@@ -16,44 +16,42 @@ type TDefaultSwiperProps<T> = {
 export default function DefaultSwiper<T>(props: TDefaultSwiperProps<T>) {
   const { items, render, getId } = props;
   return (
-    <>
-      <div className="flex items-center justify-center w-full mx-auto overflow-hidden relative">
-        <div className="swiperContainer w-[1900px] mx-auto">
-          <Swiper
-            modules={[Navigation, Pagination, A11y]}
-            navigation={{
-              prevEl: ".prevNavigation",
-              nextEl: ".nextNavigation",
-            }}
-            spaceBetween={24}
-            slidesPerView={3.5}
-            initialSlide={1}
-            centeredSlides={true}
-            grabCursor={true}
-            pagination={{
-              clickable: true,
-              renderBullet: function (_, className) {
-                return `<span class="${className} [&.swiper-pagination-bullet-active]:bg-label-strong"></span>`;
-              },
-            }}
-          >
-            {items.map((item) => (
-              <SwiperSlide key={getId(item)}>{render(item)}</SwiperSlide>
-            ))}
-            <div className="bg-gradient-to-r from-white w-[520px] h-full absolute top-0 left-0 z-10"></div>
-            <div className="bg-gradient-to-l from-white w-[520px] h-full absolute top-0 right-0 z-10"></div>
-          </Swiper>
+    <div className="flex items-center justify-center overflow-hidden relative">
+      <div className="swiperContainer w-[1650px]">
+        <Swiper
+          modules={[Navigation, Pagination, A11y]}
+          navigation={{
+            prevEl: ".prevNavigation",
+            nextEl: ".nextNavigation",
+          }}
+          spaceBetween={35}
+          slidesPerView={3}
+          loop={true}
+          centeredSlides={true}
+          grabCursor={true}
+          pagination={{
+            clickable: true,
+            renderBullet: function (_, className) {
+              return `<span class="${className} [&.swiper-pagination-bullet-active]:bg-label-strong"></span>`;
+            },
+          }}
+        >
+          {items.map((item) => (
+            <SwiperSlide key={getId(item)}>{render(item)}</SwiperSlide>
+          ))}
+          <div className="bg-gradient-to-r from-white w-[520px] h-full absolute top-0 left-0 z-10"></div>
+          <div className="bg-gradient-to-l from-white w-[520px] h-full absolute top-0 right-0 z-10"></div>
+        </Swiper>
+      </div>
+      <div className="navigations">
+        <div className="prevNavigation">
+          <SliderNavigationButton direction="prev" />
         </div>
-        <div className="navigations">
-          <div className="prevNavigation">
-            <SliderNavigationButton direction="prev" />
-          </div>
-          <div className="nextNavigation">
-            <SliderNavigationButton direction="next" />
-          </div>
+        <div className="nextNavigation">
+          <SliderNavigationButton direction="next" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

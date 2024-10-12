@@ -17,7 +17,7 @@ export default async function MainStatusBoard() {
 
   return (
     <section>
-      <SectionTitle size="md" className="mb-6">
+      <SectionTitle size="md" className="mb-8">
         {session?.user.name}님의{" "}
         <span className="text-main-600">{NOW_DATE}</span> 스터디 현황
       </SectionTitle>
