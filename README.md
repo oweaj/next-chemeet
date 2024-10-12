@@ -14,11 +14,11 @@
 
 ## 개발 기간
 
-|                       | (총 11주)                   |
-| --------------------- | --------------------------- |
-| 코스 내 프로젝트 진행 | **2024.06.17 - 2024.08.01** |
-| 추가 기능 개발 진행   | **2024.08.05 - 2024.08.30** |
-| 리팩토링 진행         | **2024.09 - 진행중**        |
+| /              | 기간                        |
+| -------------- | --------------------------- |
+| 프로젝트 진행  | **2024.06.17 - 2024.08.01** |
+| 추가 기능 진행 | **2024.08.05 - 2024.08.30** |
+| 리팩토링 진행  | **2024.09 - 진행중**        |
 
 ## 기술 스택
 
@@ -27,7 +27,7 @@
 - 기획 및 설계 : Figma, draw.io
 - 프로젝트 관리 : Github Project (Kanban), Notion
 - 배포 Preview & Production : Vercel
-- 실시간 소통 : Discord, Slack, Kakao talk chat, Zep, Jitsi ...
+- 실시간 소통 : Discord, Slack, Zep, Jitsi
 
 ## 아키텍처 다이어그램
 
@@ -53,27 +53,6 @@
 
 ![image](https://github.com/user-attachments/assets/23bc3468-9a16-440a-a401-29473a825c80)
 
-### 개발 컨벤션 정리
-
-[Repository/Wiki](https://github.com/woongteco/nextcamp-12t/wiki)
-
 ### 메인 페이지 화면
 
 ![image](https://github.com/user-attachments/assets/458fe4b7-993d-4fff-a281-f67bd65080dc)
-
-## 팀 웅테코
-
-### 멤버들 (3명)
-
-| [<img src="https://avatars.githubusercontent.com/yangareum1818" width="200">](https://github.com/yangareum1818) | [<img src="https://avatars.githubusercontent.com/callmebyneon" width="200">](https://github.com/callmebyneon) | [<img src="https://avatars.githubusercontent.com/oweaj" width="200">](https://github.com/oweaj) |
-| :-------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------: |
-|                                   [양아름](https://github.com/yangareum1818)                                    |                                   [이나연](https://github.com/callmebyneon)                                   |                               [장재우](https://github.com/oweaj)                                |
-|                               [@yangareum1818](https://github.com/yangareum1818)                                |                               [@callmebyneon](https://github.com/callmebyneon)                                |                               [@oweaj](https://github.com/oweaj)                                |
-|                                               팀장, 최고의 행동력                                               |                                          서기, 일할 때 한정 대문자 J                                          |                                    총무, 예비 백엔드 개발자                                     |
-
-_And Special thanks to our mentor ... [Hero](https://github.com/hero-dataheroes)_
-
-### 프로젝트 캠프 : Next.js 과정 (1기)
-
-| 스나이퍼팩토리 | 유데미 | 웅진씽크빅 | 고용노동부 |
-| :------------: | :----: | :--------: | :--------: |
