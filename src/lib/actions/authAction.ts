@@ -74,16 +74,22 @@ export async function login(formData: FormData) {
 
   const user = await User.findOne({ email });
 
-  try {
+  if (!user) {
+    return {
+      state: false,
+      message: "가입되지 않은 이메일 입니다.",
+    };
+  } else {
     const passwordCheck = await compare(String(password), user.password);
-
     if (!passwordCheck) {
       return {
         state: false,
-        message: "이메일 또는 비밀번호를 다시 확인해주세요.",
+        message: "비밀번호를 다시 확인해주세요.",
       };
     }
+  }
 
+  try {
     await signIn("credentials", {
       redirect: false,
       email,
