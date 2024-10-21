@@ -129,7 +129,7 @@ export async function updateStudy(studyId: string, formData: FormData) {
   const thumbnailUrl = formData.get("thumbnailUrl") as string;
   const jobCategory = JSON.parse(formData.get("jobCategory") as string);
   const targetCategory = JSON.parse(formData.get("targetCategory") as string);
-  const expense = Number(formData.get("expense"));
+  const expense = Number(formData.get("expense")) || 0;
   const recruitmentPeople = Number(formData.get("recruitmentPeople"));
   const recruitmentPeriod = JSON.parse(
     formData.get("recruitmentPeriod") as string
@@ -145,7 +145,7 @@ export async function updateStudy(studyId: string, formData: FormData) {
     !title ||
     !jobCategory ||
     !targetCategory ||
-    !expense ||
+    expense < 0 ||
     !recruitmentPeople ||
     !recruitmentPeriod ||
     !studyPeriod ||
@@ -184,6 +184,8 @@ export async function updateStudy(studyId: string, formData: FormData) {
       },
       { new: true }
     );
+
+    console.log("액션 업데이트" + update);
 
     if (!update) {
       return { state: false, message: "해당 스터디를 찾을 수 없습니다." };
