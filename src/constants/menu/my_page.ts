@@ -3,12 +3,12 @@ export const MYPAGE_MENUS = [
   {
     key: "study",
     href: `/my/study`,
-    label: "내 스터디 활동",
+    label: "개설한 스터디",
   },
+  { key: "post", href: `/my/post`, label: "작성한 글" },
   {
     key: "like-study",
     href: `/my/like-study`,
     label: "찜한 스터디",
   },
-  { key: "post", href: `/my/post`, label: "내가 작성한 글" },
 ];
