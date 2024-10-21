@@ -65,7 +65,7 @@ export default function StudyCardItem({ card }: { card: StudyDataFull }) {
               }
             />
           </div>
-          <div className="mt-4 flex gap-1">
+          <div className="mt-4 flex gap-2">
             <Keyword bg="bg-card" text="text-label-normal">
               모집 {card.studyInfo?.recruitmentPeople}명
             </Keyword>

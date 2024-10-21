@@ -78,18 +78,7 @@ export default async function StudyComponent({
             </SectionTitle>
           )}
           <div className="flex flex-col gap-6">
-            <div>
-              <SectionTitle size="sm" className="pb-3">
-                디자인 프로 스터디
-              </SectionTitle>
-              <WideStudyList />
-            </div>
-            <div>
-              <SectionTitle size="sm" className="pb-3">
-                취업 / 포트폴리오 프로 스터디
-              </SectionTitle>
-              <WideStudyList />
-            </div>
+            <WideStudyList />
           </div>
         </div>
         <div>

@@ -11,10 +11,10 @@ export default function WideStudyList() {
     queryFn: () => getStudy(),
   });
 
-  const studyList = (data?.data).slice(0, 2);
+  const studyList = (data?.data).slice(0, 4);
 
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-2 gap-6 max-md:grid-cols-1">
       {studyList.map((card: StudyDataFull) => (
         <WideStudyItem key={card.studyId} card={card} />
       ))}

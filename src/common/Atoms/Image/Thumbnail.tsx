@@ -17,7 +17,7 @@ export default function Thumbnail(props: TImageThumbnailProps) {
     default: { width: 280, height: 180 },
     specific: { width: 582, height: 438 },
     linked: { width: 200, height: 132 },
-    large: { width: 392, height: 448 },
+    large: { width: 1000, height: 448 },
   };
   const {
     alt,

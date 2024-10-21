@@ -14,7 +14,7 @@ export default function LargeStudyList() {
   const studyList = (data?.data).slice(0, 3);
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
       {studyList.map((card: StudyDataFull) => (
         <LargeStudyItem key={card.studyId} card={card} />
       ))}

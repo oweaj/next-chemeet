@@ -11,7 +11,7 @@ export default function StudyCardList({
   const studyList = count ? studyCards.slice(0, count) : studyCards;
 
   return (
-    <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
       {studyList.map((card: StudyDataFull) => (
         <StudyCardItem key={card.studyId} card={card} />
       ))}
