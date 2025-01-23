@@ -99,7 +99,7 @@ export async function supabaseUploadImage(doc: string, formData: FormData) {
 
   try {
     const { error } = await supabase.storage
-      .from("image")
+      .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET!)
       .upload(`${doc}/${fileName}`, file);
 
     if (error) {
@@ -107,7 +107,7 @@ export async function supabaseUploadImage(doc: string, formData: FormData) {
     }
 
     const { data } = supabase.storage
-      .from("image")
+      .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET!)
       .getPublicUrl(`${doc}/${fileName}`);
 
     return { state: true, result: data.publicUrl };
@@ -126,7 +126,7 @@ export async function supabaseDeleteImage(doc: string, fileUrl: string | null) {
 
   try {
     const { error } = await supabase.storage
-      .from("image")
+      .from(process.env.NEXT_PUBLIC_STORAGE_BUCKET!)
       .remove([`${doc}/${fileName}`]);
 
     if (error) {
